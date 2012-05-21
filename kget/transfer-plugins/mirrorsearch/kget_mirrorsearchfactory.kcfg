@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="kget_mirrorsearchfactory.rc"/>
+   <group name="SearchEngines">
+    <entry name="UseSearchEngines" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="SearchEnginesNameList" type="StringList" key="NameItems">
+      <label>List of the available search engines</label>
+      <default>FindFiles.com,FileWatcher.com</default>
+    </entry>
+    <entry name="SearchEnginesUrlList" type="StringList" key="UrlItems">
+      <label>List of the available search engine URLs</label>
+      <default>http://www.findfiles.com/list.php?db=Mirrors&amp;string=${filename},http://www.filewatcher.com/_/?q=+${filename}</default>
+    </entry>
+  </group>
+</kcfg>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="kget_multisegkiofactory.rc"/>
+  <group name="Segments">
+    <entry name="Segments" type="Int">
+      <default>5</default>
+    </entry>
+    <entry name="SaveSegSize" type="Int">
+      <default>100</default>
+    </entry>
+  </group>
+  <group name="SearchEngines">
+    <entry name="UseSearchEngines" type="Bool">
+      <default>false</default>
+    </entry>
+  </group>
+  <group name="Verification">
+    <entry name="UseSearchVerification" type="Bool">
+      <default>true</default>
+    </entry>
+  </group>
+</kcfg>

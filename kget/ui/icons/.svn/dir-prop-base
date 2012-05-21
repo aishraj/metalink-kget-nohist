@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 72
+*.moc
+*.moc.cpp
+*_meta_unload.cpp
+Makefile
+Makefile.in
+Makefile.rules.in
+END

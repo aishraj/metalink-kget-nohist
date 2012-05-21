@@ -1,0 +1,28 @@
+This module covers the following applications:
+
+* Filesharing: network file sharing
+  Maintainer: Jan Schäfer <j_schaef@informatik.uni-kl.de>
+
+* kdnssd: Zeroconf
+  Maintainer: Jakub Stachowski <qbast@go2.pl>
+
+* KGet: an advanced download manager
+  Maintainer: Lukas Appelhans <l.appelhans@gmx.de>
+  Mailing-List: kget@kde.org
+
+* Kopete: Instant Messaging client
+  Maintainer: Matt Rogers <mattr@kde.org>
+  Mailing-List: kopete-devel@kde.org
+
+* KPPP: dialer and front end for pppd
+  Maintainer: UNMAINTAINED
+
+* KRDC: a client for Desktop Sharing
+  Maintainer: Urs Wolfer <uwolfer@kde.org>
+
+* Krfb: Desktop Sharing server, allow others to access your desktop via VNC
+  Maintainer: Alessandro Praduroux <pradu@pradu.it>
+
+
+For questions about the individual applications, please ask the maintainer or
+write to the mailing-list if available.

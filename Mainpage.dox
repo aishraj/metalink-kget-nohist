@@ -1,0 +1,8 @@
+/** \mainpage The KDE Network API Reference
+ *
+ * This section contains the KDE online class reference for the KDE network module.
+ *
+ */
+
+// DOXYGEN_NAME=kdenetwork
+// DOXYGEN_ENABLE=YES

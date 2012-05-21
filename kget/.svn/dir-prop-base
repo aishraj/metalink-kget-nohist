@@ -1,0 +1,16 @@
+K 10
+svn:ignore
+V 102
+Makefile
+Makefile.in
+kget
+docs
+kget.tag
+.deps
+.libs
+*.moc.cpp
+*.moc
+dcopiface.kidl
+dcopiface_skel.cpp
+
+END

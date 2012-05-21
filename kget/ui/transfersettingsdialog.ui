@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TransferSettingsDialog</class>
+ <widget class="QWidget" name="TransferSettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>626</width>
+    <height>338</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="KTitleWidget" name="ktitlewidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Transfer Settings</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::ExpandingFieldsGrow</enum>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Download des&amp;tination:</string>
+       </property>
+       <property name="buddy">
+        <cstring>destination</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KUrlRequester" name="destination">
+       <property name="mode">
+        <set>KFile::Directory|KFile::ExistingOnly</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="uploadSpin">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="specialValueText">
+        <string comment="No value has been set">Not set</string>
+       </property>
+       <property name="suffix">
+        <string> KiB/s</string>
+       </property>
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="downloadSpin">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="specialValueText">
+        <string comment="No value has been set">Not set</string>
+       </property>
+       <property name="suffix">
+        <string> KiB/s</string>
+       </property>
+       <property name="maximum">
+        <number>100000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="ratioSpin">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="specialValueText">
+        <string comment="No value has been set">Not set</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelUpload">
+       <property name="text">
+        <string>&amp;Upload limit:</string>
+       </property>
+       <property name="buddy">
+        <cstring>uploadSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelDownload">
+       <property name="text">
+        <string>&amp;Download limit:</string>
+       </property>
+       <property name="buddy">
+        <cstring>downloadSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelShareRatio">
+       <property name="text">
+        <string>Maximum &amp;share ratio:</string>
+       </property>
+       <property name="buddy">
+        <cstring>ratioSpin</cstring>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QTreeView" name="treeView">
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <attribute name="headerDefaultSectionSize">
+        <number>70</number>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="KPushButton" name="mirrors">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="toolTip">
+          <string>Modify the mirrors used for downloading.</string>
+         </property>
+         <property name="text">
+          <string comment="The available mirrors (servers) for downloading">Mirrors</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KPushButton" name="rename">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Rename</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KPushButton" name="verification">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string comment="verification of the download (e.g. by using MD5)">Verification</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KPushButton" name="signature">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Signature</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTitleWidget</class>
+   <extends>QWidget</extends>
+   <header>ktitlewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

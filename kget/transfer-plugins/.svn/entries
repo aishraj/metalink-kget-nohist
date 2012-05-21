@@ -1,0 +1,86 @@
+10
+
+dir
+1295809
+svn://anonsvn.kde.org/home/kde/trunk/KDE/kdenetwork/kget/transfer-plugins
+svn://anonsvn.kde.org/home/kde
+
+
+
+2012-05-11T07:42:38.994207Z
+1294136
+scripty
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+283d02a7-25f6-0310-bc7c-ecb5cbfe19da
+
+mirrorsearch
+dir
+
+multisegmentkio
+dir
+
+kio
+dir
+
+contentfetch
+dir
+
+metalink
+dir
+
+mmsthreads
+dir
+
+checksumsearch
+dir
+
+bittorrent
+dir
+
+CMakeLists.txt
+file
+
+
+
+
+2012-05-21T08:00:02.385116Z
+68da0065d41b5602ff595b87c961d086
+2011-08-21T22:00:15.424018Z
+1248745
+mfuchs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+403
+

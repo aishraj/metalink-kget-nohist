@@ -1,0 +1,147 @@
+TODO-list for KGet
+======================
+
+<nick>  == reported by
+Legend:
+    ADD - ADDed
+    CHG - CHanGed
+    FIX - FIXed
+
+
+    USABILITY REVIEW
+---------------------
+Main Window
+    1.1 - List title bar
+    1.2 - No text in toolbar                        DONE
+    1.3 - Menu item File → Open unclear             DONE (renamed to "Import Transfers")
+    1.4 - Missing keyboard shortcuts
+    1.5 - Downloads don’t start immediately        DONE
+    2.1 - Default group not necessary?              Renamed to "My Downloads". Is it enough?
+    3.1 - Visual alignment                          DONE (all centered)
+    3.2 - File details view not always visible      DONE? (extendable Details)
+    3.3 - File details view switching               DONE?
+
+
+
+
+    IN PROGRESS
+---------------------
+
+        TODO
+---------------------
+
+SHORT-TERM (URGENT):
+
+  CHG <kget> Change the way KDE Global Progress Tracking work (Refactor / Rewrite) (BUG: 213084, 218766) - 80% completed
+  CHG <kget> Stop All action doesn't stop the transfers with setted policy at Running
+  CHG <kget> Related to BUG: 220516. You can reproduce this by unplugging your ethernet connection for some seconds and
+             connecting it again. Nobody will never put the download in the Delayed status, and the transfer will be stuck
+             without ever going on.
+  CHG <kget> Downloading from websites like rapidshare.com seems to have problems when one downloads a file as a free user
+             with the multithread plugin. Seems like just one of the chunks (the first one?) works, and the transfer gets
+             stuck at the percentage of 1 / (# of chunks) * 100. Allow  the first chunk to complete the entire download if
+             necessary?
+  CHG <kget> Transparency problems reported by Enrico Ros. Have still to download the video that demonstrates the problems.
+  CHG <kget> Disable popup notifications when we have the system tray jobs activated
+
+KDE 4.5:
+  CHG <kget> Make the global Status tracking show the filename if only one file is downloading at a time
+
+MID-TERM:
+
+  -- MULTISOURCEDOWNLOAD --
+  ADD <boom1992> For each Transfer-Plugin, which supports speedlimits, there should be a button for "Add source", not sure if for 4.1 (depends on the plugins if they want to..)
+  ADD <boom1992> Move some kind of AdvancedDetails to core, with "Peer-View", "Chunks-View", "File-View" and perhaps that status of sources (that will come with 4.2 hopefully)
+  ADD <boom1992> Speedlimits support for every DataSource, which is able to do that
+
+  ADD <dario> implement progressive filling of the icon in the system tray
+  CHG <pino> verify that all the settings are respected
+  ADD <boom1992> let the user add new download-sources to a multithreaded transfer manually
+  ADD <boom1992> Ask the user if he/she wants to delete the transfer (or probably if he/she wants to delete the tmp-file)?
+  ADD <boom1992> Move deleting of big tmp-files to a new thread
+  ADD <boom1992> Change "Regular expression -> Folder" to "Regular expression -> Group"
+  ADD <pino> tooltips and what's this for settings
+  ADD <dario> add a wizard on the first app execution, where the user can set
+      his download folders and other "vital" settings like the integration with
+      Konqueror. Perhaps we could provide a good default like ~/downloads/.
+
+LONG-TERM:
+
+  ADD <kget> make the TestView able to make intensive tests on kget by
+      giving commands to the Scheduler and looking if what happens is what should
+      happen.
+  CHG <dario> usability enhancements as in #79519, #89379, #111407
+  ADD <dario> sidebar for transfer statistics and more (bandwidth
+      graph, alternative urls, connection status/type, virtual folders,
+      ...)
+  ADD <kget> add bandwidth limiting (#87600)
+  ADD <dario> 'low priority downloads' as in br #50776.
+  ADD <kget> add Help & Guide
+  ADD <uwolfer> resume option when there is a file with the same name (#51450)
+  ADD <uwolfer> preserve timestamp of downloaded files (as option) (#55511)
+  ADD <uwolfer> recursion and other wget features (#57105)
+  ADD <uwolfer> make KGets handling of many downloads smarter 
+      (maximum number of open connections per server) (#57248)
+  ADD <uwolfer> check there is enough space left before downloading file (#57373)
+  ADD <uwolfer> save referer page for downloads (#60946)
+  ADD <uwolfer> built-in signature verification support (#61397)
+  ADD <uwolfer> right-click menu to change file properties 
+      (filename, destination directory, url) (#72534, 82923)
+  ADD <uwolfer> add valid download time frame, global or individual (#109377)
+  ADD <boom1992> write a ML-Donkey-plugin, based on libkmldonkey
+  ADD <boom1992> Proxy-support, not global, only for kget (we need to wait for kdelibs)
+  ADD <boom1992> Various small improvements: #134456, #81219, #150391, #150447, #121318(we should add it to transfer-history), searchbar for mainwindow, Nepomuk integration??, strigi integration (with transfer-history)??
+  ADD <boom1992> DC++-Plugin
+  ADD <boom1992> GUI to create Metalinks 
+
+        DONE
+---------------------
+
+
+  Things done until 21/01/2005
+
+  CHG <dario, eros> decoupling between gui and transfer operations.
+  ADD <dario> Implement the MainView class that should become the kget main view.
+  CHG <dario> Transfer object rewrite to make it easily inherited from 
+      new kind of transfers.
+  ADD <dario> TransferKio. The first transfer realized using kioSlaves
+  CHG <dario> Scheduler logic enhancement (there are still lots of things to do)
+  ADD <dario> groups support and notifies to the views.
+  ADD <dario> systray icon with blinking overlay.
+  CHG <eros> Move all the configuration framework to KConfigXT
+  CHG <dario> implement delayedInitialization of the kget app. This should speed up
+      the startup a lot with big lists of transfers.
+  FIX <dario> the konqueror plugin doesn't allow the download of links if 
+      the relative web page has been closed
+  FIX <pino> make more fluid the drop target movement
+  FIX <dario> handle SideBar resizing correctly
+  CHG <dario> finish to implement transferKio adding, for example, setDelay.
+  FIX <dario> (JJ) fix crash when resuming an already running transfer. The 
+      solution should be to check for this case in Scheduler::slotSetCommand
+      by calling the info() function on the transfer and checking if its status
+      is St_Trying or St_Running. In this case we should do nothing.
+  FIX <dario> (JJ) fixed Sidebar crash.
+  FIX <dario> fixed 'stop on transfer' crash
+  FIX <enrico> Optimized color scheme change (rebuilds pixmaps, droptarget,
+      etc) and pixmap deletion (leakfix)
+  CHG <enrico> disabled internal segv hander to show backtraces on crash
+  ADD <dario> make it possible to move transfers to a specific group using
+      the popup menu.
+
+  Things done after the big architecture rewrite
+
+  CHG <dario> rename the KMainWidget class (that IMHO is a rather confusing name)
+      to MainWindow (KGet? KGetWindow?)
+  ADD <dario> add the possibility to select "open destination folder" in 
+      the transfer's popup menu.
+
+IDEAS:
+   * Use the single transfer dialog to display transfer property, progress and
+     to set up advanced options of a transfer, like its splitting into chuncks.
+
+
+DISCUSSING:
+   * Remember to move downloaded Transfers in a black-list that will be
+     deleted when program exits. So old pointers to downloaded items are
+     still valid when the transfer ends.
+

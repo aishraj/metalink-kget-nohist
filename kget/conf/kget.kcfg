@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+
+  <include>KGlobalSettings</include>
+
+  <kcfgfile name="kgetrc"/>
+
+  <group name="Appearance">
+    <entry name="HeaderState" type="String">
+    </entry>
+    <entry name="TransferSettingsHeaderState" type="String">
+    </entry>
+    <entry name="VerificationHeaderState" type="String">
+    </entry>
+    <entry name="AutoPasteHeaderState" type="String">
+    </entry>
+    <entry name="ShowMain" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="ShowIndividual" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="DockifyIndividual" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="ShowDropTarget" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="AnimateDropTarget" type="Bool">
+      <default>true</default>
+    </entry>
+  </group>
+
+  <group name="Advanced">
+    <entry name="KonquerorIntegration" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="AutoPaste" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="AutoPasteCaseSensitive" type="Bool">
+        <default>false</default>
+    </entry>
+    <entry name="AutoPastePatterns" type="StringList">
+        <default>*</default>
+    </entry>
+    <entry name="AutoPasteTypes" type="IntList">
+        <default>0</default>
+    </entry>
+    <entry name="AutoPastePatternSyntaxes" type="IntList">
+        <default>0</default>
+    </entry>
+    <entry name="TimedDownload" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="TimedDownloadDateTime" type="DateTime">
+      <default code="true">QDateTime::currentDateTime()</default>
+    </entry>
+    <entry name="TimedDisconnect" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="TimedDisconnectDateTime" type="DateTime">
+      <default code="true">QDateTime::currentDateTime()</default>
+    </entry>
+    <entry name="EnableSystemTray" type="Bool">
+        <default>true</default>
+    </entry>
+    <entry name="AfterFinishActionEnabled" type="Bool">
+        <default>false</default>
+    </entry>
+    <entry name="AfterFinishAction" type="Int">
+        <default>0</default>
+    </entry>
+    <entry name="EnableKUIServerIntegration" type="Bool">
+        <default>false</default>
+    </entry>
+    <entry name="ExportSingleTransfer" type="Bool">
+        <default>true</default>
+    </entry>
+    <entry name="ExportGlobalJob" type="Bool">
+        <default>false</default>
+    </entry>
+    <entry name="HistoryBackend" type="Int">
+        <default>1</default>
+    </entry>
+    <entry name="StartupAction" type="Int">
+        <default>0</default>
+    </entry>
+    <entry name="FilesAlwaysAsk" type="Bool">
+        <default>true</default>
+    </entry>
+    <entry name="FilesAutomaticRename" type="Bool">
+        <default>false</default>
+    </entry>
+    <entry name="FilesOverwrite" type="Bool">
+        <default>false</default>
+    </entry>
+  </group>
+
+  <group name="Network">
+    <entry name="MaxConnections" type="Int">
+      <default>2</default>
+    </entry>
+    <entry name="SpeedLimit" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="TransferSpeedLimit" type="Int">
+      <default>20</default>
+    </entry>
+    <entry name="GlobalDownloadLimit" type="Int">
+      <default>0</default>
+    </entry>
+    <entry name="GlobalUploadLimit" type="Int">
+      <default>0</default>
+    </entry>
+    <entry name="ReconnectOnBroken" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="ReconnectRetries" type="Int">
+      <default>5</default>
+    </entry>
+    <entry name="ReconnectDelay" type="Int">
+      <default>60</default>
+    </entry>
+  </group>
+
+  <group name="Webinterface">
+    <entry name="WebinterfaceEnabled" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="WebinterfacePort" type="Int">
+      <default>8080</default>
+    </entry>
+    <entry name="WebinterfaceUser" type="String">
+      <default>admin</default>
+    </entry>
+  </group>
+
+  <group name="Groups">
+    <entry name="DirectoriesAsSuggestion" type="Bool">
+      <default>false</default>
+    </entry>
+    <entry name="AskForDestination" type="Bool">
+        <default>true</default>
+    </entry>
+  </group>
+
+  <group name="Internal">
+    <!-- NOT CONFIGURABLE -->
+    <entry name="MainPosition" type="Point"/>
+    <entry name="MainState" type="Int">
+      <default>0</default>
+    </entry>
+    <entry name="DropPosition" type="Point">
+        <default code="true">QPoint(-1, -1)</default>
+    </entry>
+    <entry name="DropSticky" type="Bool">
+      <default>0</default>
+    </entry>
+    <entry name="FirstRun" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="LastDirectory" type="Path">
+      <default code="true">KGlobalSettings::downloadPath()</default>
+    </entry>
+    <entry name="LastGroup" type="String">
+    </entry>
+    <entry name="LinkViewFilterPatternSyntax" type="Int">
+        <default>0</default>
+    </entry>
+  </group>
+ 
+  <group name="Geometry">
+    <entry name="HistoryColumnWidths" type="IntList">
+      <label>The width of the columns in the history view</label>
+    </entry>
+  </group>
+
+  <group name="Verification">
+    <entry name="ChecksumAutomaticVerification" type="Bool">
+      <default>1</default>
+    </entry>
+    <entry name="ChecksumStrength" type="Int">
+      <default>1</default>
+    </entry>
+    <entry name="SignatureAutomaticVerification" type="Bool">
+      <default>1</default>
+    </entry>
+    <entry name="SignatureAutomaticDownloading" type="Bool">
+      <default>1</default>
+    </entry>
+    <entry name="SignatureKeyServers" type="StringList">
+      <default>http://keys.gnupg.net,http://stinkfoot.org,http://pgp.mit.edu,http://pgp.surfnet.nl,http://keyserver.gingerbear.net</default>
+    </entry>
+  </group>
+
+</kcfg>
