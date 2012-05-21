@@ -1,3 +1,10 @@
+This repo contains an ongoing development for support of Metalink/HTML [RFC 6249] in KGet which is a part of Google Summer of Code project.
+For stable version of the KGet source refer to: http://websvn.kde.org/trunk/KDE/kdenetwork/kget/ 
+
+Below is the original readme from the KDE svn repo. Please refer to the original repo for further details.
+--------------------------------------------------------------------------------------------------------
+ORIGINAL README
+--------------------------------------------------------------------------------------------------------
 This module covers the following applications:
 
 * Filesharing: network file sharing
