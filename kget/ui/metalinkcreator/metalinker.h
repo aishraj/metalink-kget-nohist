@@ -25,6 +25,9 @@
 #include <KUrl>
 #include <QDate>
 #include <QDomElement>
+#include <QtCore/QEventLoop>
+#include <QtCore/QString>
+#include <QtCore/QObject>
 
 #ifdef HAVE_NEPOMUK
 namespace Nepomuk
@@ -248,7 +251,7 @@ class File
         bool isValid() const;
 
         /**
-         * Controlls if the name attribute is valid, i.e. it is not empty and
+         * Controls if the name attribute is valid, i.e. it is not empty and
          * does not contain any directory traversal directives or information,
          * as described in the Metalink 4.0 specification 4.1.2.1.
          */
@@ -410,6 +413,28 @@ class HandleMetalink
         static void addProperty(QList<QPair<QUrl, Nepomuk::Variant> > *data, const QByteArray &uriBa, const QString &value);
         static void addProperty(QList<QPair<QUrl, Nepomuk::Variant> > *data, const QUrl &uri, const QString &value);
 #endif //HAVE_NEPOMUK
+};
+
+class metalinkHttp : public QObject
+{
+    Q_OBJECT
+public:
+    metalinkHttp(const KUrl&);
+    ~metalinkHttp();
+    void checkMetalinkHttp();
+    bool isMetalinkHttp();
+
+private slots:
+    void slotHeaderResult(KJob* kjob);
+
+private:
+    const KUrl m_Url;
+    bool m_MetalinkHSatus;
+    QEventLoop m_loop;
+    QMultiMap<QString, QString> m_headerInfo;
+    void parseHeaders(const QString&);
+    void setMetalinkHSatus();
+
 };
 
 }
