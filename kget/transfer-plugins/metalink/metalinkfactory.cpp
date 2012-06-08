@@ -44,5 +44,10 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
 
 bool metalinkFactory::isSupported(const KUrl &url) const
 {
+    m_metalinkHttpChecker(url);
+    m_metalinkHttpChecker.checkMetalinkHttp();
+    if (m_metalinkHttpChecker.isMetalinkHttp()) {
+        kDebug() << "This is metalink http" ;
+    }
     return (url.fileName().endsWith(QLatin1String(".metalink")) || url.fileName().endsWith(QLatin1String(".meta4")));
 }

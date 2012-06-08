@@ -419,7 +419,12 @@ class metalinkHttp : public QObject
 {
     Q_OBJECT
 public:
-    metalinkHttp(const KUrl&);
+    metalinkHttp(const KUrl& Url)
+        : m_MetalinkHSatus(false),
+          m_Url(Url)
+  {
+
+  }
     ~metalinkHttp();
     void checkMetalinkHttp();
     bool isMetalinkHttp();

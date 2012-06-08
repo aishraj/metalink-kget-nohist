@@ -1335,12 +1335,13 @@ void KGetMetalink::HandleMetalink::addProperty(QList<QPair<QUrl, Nepomuk::Varian
 }
 #endif //HAVE_NEPOMUK
 
+/*
 KGetMetalink::metalinkHttp(const KUrl& Url)
     : m_MetalinkHSatus(false),
       m_Url(Url)
 {
 
-}
+} */
 
 KGetMetalink::metalinkHttp::~metalinkHttp()
 {

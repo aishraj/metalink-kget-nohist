@@ -12,10 +12,12 @@
 #define METALINK_FACTORY_H
 
 #include "core/plugin/transferfactory.h"
+#include "ui/metalinkcreator/metalinker.h"
 
 class Transfer;
 class TransferGroup;
 class Scheduler;
+class metalinkHttp;
 
 class metalinkFactory : public TransferFactory
 {
@@ -31,6 +33,8 @@ class metalinkFactory : public TransferFactory
         QString displayName(){return "MetaLink";}
         
         bool isSupported(const KUrl &url) const;
+
+        metalinkHttp m_metalinkHttpChecker;
 };
 
 #endif
