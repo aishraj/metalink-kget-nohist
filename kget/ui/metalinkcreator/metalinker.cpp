@@ -1336,19 +1336,20 @@ void KGetMetalink::HandleMetalink::addProperty(QList<QPair<QUrl, Nepomuk::Varian
 #endif //HAVE_NEPOMUK
 
 /*
-KGetMetalink::metalinkHttp(const KUrl& Url)
+KGetMetalink::metalinkHttpParser(const KUrl& Url)
     : m_MetalinkHSatus(false),
       m_Url(Url)
 {
 
 } */
 
-KGetMetalink::metalinkHttp::~metalinkHttp()
+
+KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 {
 
 }
 
-void KGetMetalink::metalinkHttp::checkMetalinkHttp()
+void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 {
 
     KIO::SimpleJob *job;
@@ -1356,12 +1357,12 @@ void KGetMetalink::metalinkHttp::checkMetalinkHttp()
     job->addMetaData("PropagateHttpHeader", "true");
     job->setRedirectionHandlingEnabled(false);
     connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
-    qDebug() << " Verifying Metalink/HTTP Status" ;
+    kDebug() << " Verifying Metalink/HTTP Status" ;
     m_loop.exec();
 
 }
 
-void KGetMetalink::metalinkHttp::slotHeaderResult(KJob* kjob)
+void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
 {
     KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
     const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
@@ -1371,12 +1372,12 @@ void KGetMetalink::metalinkHttp::slotHeaderResult(KJob* kjob)
 
 }
 
-bool KGetMetalink::metalinkHttp::isMetalinkHttp()
+bool KGetMetalink::metalinkHttpParser::isMetalinkHttp()
 {
     return m_MetalinkHSatus;
 }
 
-void KGetMetalink::metalinkHttp::parseHeaders(const QString &httpHeader)
+void KGetMetalink::metalinkHttpParser::parseHeaders(const QString &httpHeader)
 {
     QString trimedHeader = httpHeader.mid(httpHeader.indexOf('\n') + 1).trimmed();
 
@@ -1392,7 +1393,7 @@ void KGetMetalink::metalinkHttp::parseHeaders(const QString &httpHeader)
     }
 }
 
-void KGetMetalink::metalinkHttp::setMetalinkHSatus()
+void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
 {
     bool linkStatus, digestStatus;
     linkStatus = digestStatus = false;

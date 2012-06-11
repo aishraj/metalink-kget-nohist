@@ -415,30 +415,31 @@ class HandleMetalink
 #endif //HAVE_NEPOMUK
 };
 
-class metalinkHttp : public QObject
+class metalinkHttpParser : public QObject
 {
     Q_OBJECT
-public:
-    metalinkHttp(const KUrl& Url)
-        : m_MetalinkHSatus(false),
-          m_Url(Url)
-  {
+    public:
+        metalinkHttpParser(const KUrl& Url)
+          : m_Url(Url),
+            m_MetalinkHSatus(false)
+        {
+            checkMetalinkHttp();
+        }
 
-  }
-    ~metalinkHttp();
-    void checkMetalinkHttp();
-    bool isMetalinkHttp();
+        ~metalinkHttpParser();
+        bool isMetalinkHttp();
 
-private slots:
-    void slotHeaderResult(KJob* kjob);
+    private slots:
+        void slotHeaderResult(KJob* kjob);
+        void checkMetalinkHttp();
 
-private:
-    const KUrl m_Url;
-    bool m_MetalinkHSatus;
-    QEventLoop m_loop;
-    QMultiMap<QString, QString> m_headerInfo;
-    void parseHeaders(const QString&);
-    void setMetalinkHSatus();
+    private:
+        const KUrl m_Url;
+        bool m_MetalinkHSatus;
+        QEventLoop m_loop;
+        QMultiMap<QString, QString> m_headerInfo;
+        void parseHeaders(const QString&);
+        void setMetalinkHSatus();
 
 };
 

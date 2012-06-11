@@ -17,7 +17,7 @@
 class Transfer;
 class TransferGroup;
 class Scheduler;
-class metalinkHttp;
+
 
 class metalinkFactory : public TransferFactory
 {
@@ -32,9 +32,9 @@ class metalinkFactory : public TransferFactory
 
         QString displayName(){return "MetaLink";}
         
-        bool isSupported(const KUrl &url) const;
+        bool isSupported(const KUrl &url) ;
 
-        metalinkHttp m_metalinkHttpChecker;
+        KGetMetalink::metalinkHttpParser *m_metalinkHttpChecker;
 };
 
 #endif
