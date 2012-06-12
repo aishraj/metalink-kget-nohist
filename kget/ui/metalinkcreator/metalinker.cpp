@@ -1436,7 +1436,33 @@ void KGetMetalink::httpLinkHeader::headerBuilder(const QString &line)
 
     } */
     QList attribList = line.split(";");
-
+    foreach ( QString str, attribList) {
+        QString attribId = str.mid(0,str.indexOf("=")).trimmed();
+        QString attribValue = str.mid(str.indexOf("=")+1).trimmed();
+        switch (attribId) {
+        case "rel":
+            m_reltype = attribValue;
+            break();
+        case "depth":
+            m_depth = attribValue.toInt();
+            break();
+        case "geo":
+            m_depth = attribValue;
+            break();
+        case "pref":
+            m_pref = true;
+            break();
+        case "pri":
+            priority = attribValue.toUInt();
+            break;
+        case "type":
+            type = attribValue;
+            break();
+        case "name":
+            name = attribValue;
+            break();
+        }
+    }
 }
 
 #include "metalinker.moc"
