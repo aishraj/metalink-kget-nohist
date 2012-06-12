@@ -1335,14 +1335,6 @@ void KGetMetalink::HandleMetalink::addProperty(QList<QPair<QUrl, Nepomuk::Varian
 }
 #endif //HAVE_NEPOMUK
 
-/*
-KGetMetalink::metalinkHttpParser(const KUrl& Url)
-    : m_MetalinkHSatus(false),
-      m_Url(Url)
-{
-
-} */
-
 
 KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 {
@@ -1385,10 +1377,6 @@ void KGetMetalink::metalinkHttpParser::parseHeaders(const QString &httpHeader)
         int colon = line.indexOf(':');
         QString headerName = line.left(colon).trimmed();
         QString headerValue = line.mid(colon + 1).trimmed();
-        int lessthan_pos = line.indexOf('<');
-        if (lessthan_pos >= 0) {
-            headerValue = line.mid(lessthan_pos + 1).trimmed();
-        }
         m_headerInfo.insertMulti(headerName, headerValue);
     }
 }
@@ -1422,6 +1410,32 @@ void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
     if ((linkStatus) && (digestStatus)) {
         m_MetalinkHSatus = true;
     }
+
+}
+
+void KGetMetalink::httpLinkHeader::headerBuilder(const QString &line)
+{
+   /* int urlStartIndex = line.indexOf('<');
+    int urlEndIndex = line.indexOf('>');
+    QString urlVal = line.mid(urlStartIndex,urlEndIndex);
+    url(urlVal);
+    if (line.contains("describedby")) {
+        m_reltype = "describedby" ;
+    }
+    if (line.contains("duplicate")) {
+        m_reltype = "duplicate";
+    }
+    if (line.contains("geo")) {
+        QString geoIndex = line.indexOf("geo") + 4; //Since its geo=
+        location = line.mid(geoIndex,2);
+    }
+    if (line.contains("pref")) {
+        m_pref = true;
+    }
+    if (line.contains("describedby")) {
+
+    } */
+    QList attribList = line.split(";");
 
 }
 

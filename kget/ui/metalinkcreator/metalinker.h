@@ -443,6 +443,24 @@ class metalinkHttpParser : public QObject
 
 };
 
+class httpLinkHeader : public Metaurl
+{
+    public:
+        httpLinkHeader()
+            : m_pref(false)
+        {
+        }
+
+        QString m_reltype;
+        bool m_pref;
+
+        /**
+         * Loads information from a header value into metalink header structure.
+         * @param Value of the "link" HTTP header response.
+         */
+        void headerBuilder(const QString &);
+
+};
 }
 
 #endif // Metalinker_H
