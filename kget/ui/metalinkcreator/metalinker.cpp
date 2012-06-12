@@ -1415,52 +1415,31 @@ void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
 
 void KGetMetalink::httpLinkHeader::headerBuilder(const QString &line)
 {
-   /* int urlStartIndex = line.indexOf('<');
-    int urlEndIndex = line.indexOf('>');
-    QString urlVal = line.mid(urlStartIndex,urlEndIndex);
-    url(urlVal);
-    if (line.contains("describedby")) {
-        m_reltype = "describedby" ;
-    }
-    if (line.contains("duplicate")) {
-        m_reltype = "duplicate";
-    }
-    if (line.contains("geo")) {
-        QString geoIndex = line.indexOf("geo") + 4; //Since its geo=
-        location = line.mid(geoIndex,2);
-    }
-    if (line.contains("pref")) {
-        m_pref = true;
-    }
-    if (line.contains("describedby")) {
-
-    } */
-    QList attribList = line.split(";");
+    QList<QString> attribList = line.split(";");
     foreach ( QString str, attribList) {
         QString attribId = str.mid(0,str.indexOf("=")).trimmed();
         QString attribValue = str.mid(str.indexOf("=")+1).trimmed();
-        switch (attribId) {
-        case "rel":
+        if (attribId == "rel") {
             m_reltype = attribValue;
-            break();
-        case "depth":
+        }
+        if (attribId == "depth") {
             m_depth = attribValue.toInt();
-            break();
-        case "geo":
-            m_depth = attribValue;
-            break();
-        case "pref":
+        }
+        if (attribId == "geo") {
+            m_geo = attribValue;
+        }
+        if (attribId == "pref") {
             m_pref = true;
-            break();
-        case "pri":
+        }
+        if (attribId == "pri") {
             priority = attribValue.toUInt();
-            break;
-        case "type":
+        }
+        if (attribId == "type") {
             type = attribValue;
-            break();
-        case "name":
+        }
+
+        if (attribId == "name") {
             name = attribValue;
-            break();
         }
     }
 }

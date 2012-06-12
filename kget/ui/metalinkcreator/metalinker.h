@@ -454,6 +454,7 @@ class httpLinkHeader : public Metaurl
         QString m_reltype;
         bool m_pref;
         int m_depth;
+        QString m_geo;
 
         /**
          * Loads information from a header value into metalink header structure.
