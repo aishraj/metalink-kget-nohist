@@ -34,6 +34,14 @@ Transfer * metalinkHttpFactory::createTransfer( const KUrl &srcUrl, const KUrl &
                                                Scheduler * scheduler,
                                                const QDomElement * e )
 {
+    if (isSupported(srcUrl)) {
+        kDebug() << " this is metalink http" ;
+        qDebug() << " this is metalink http" ;
+    }
+    else {
+        kDebug() << " this is not metalink http" ;
+        qDebug() << " this is not metalink http" ;
+    }
     return 0;
 }
 
@@ -41,6 +49,7 @@ bool metalinkHttpFactory::isSupported(const KUrl &url)
 {
     m_metalinkHttpChecker = new KGetMetalink::metalinkHttpParser(url);
     if (m_metalinkHttpChecker->isMetalinkHttp()) {
+        kDebug() << "This is metalinkhttp";
         return true;
     }
     return false;
