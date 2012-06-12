@@ -1,0 +1,5 @@
+ClassName=MetalinkHttpSettings
+File=kget_metalinkhttpfactory.kcfg
+Mutators=true
+Singleton=true
+Visibility=KDE_EXPORT

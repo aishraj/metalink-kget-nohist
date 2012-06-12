@@ -1,5 +1,6 @@
 /***************************************************************************
 *   Copyright (C) 2009 Matthias Fuchs <mat69@gmx.net>                     *
+*   Copyright (C) 2012 Aish Raj Dahal <dahalaishraj@gmail.com>            *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
 *   it under the terms of the GNU General Public License as published by  *

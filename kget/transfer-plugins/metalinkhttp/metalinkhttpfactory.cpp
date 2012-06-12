@@ -2,6 +2,7 @@
 
    Copyright (C) 2004 Dario Massarin <nekkar@libero.it>
    Copyright (C) 2007 Manolo Valdes <nolis71cu@gmail.com>
+   Copyright (C) 2012 Aish Raj Dahal <ardahal.public@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -9,40 +10,38 @@
    version 2 of the License, or (at your option) any later version.
 */
 
-#include "metalinkfactory.h"
+#include "metalinkhttpfactory.h"
 
 #include "core/scheduler.h"
 #include "core/transfergroup.h"
-#include "metalink.h"
+#include "metalinkhttp.h"
 
 #include <kdebug.h>
 
-KGET_EXPORT_PLUGIN( metalinkFactory )
+KGET_EXPORT_PLUGIN( metalinkHttpFactory )
 
-metalinkFactory::metalinkFactory(QObject *parent, const QVariantList &args)
+metalinkHttpFactory::metalinkHttpFactory(QObject *parent, const QVariantList &args)
   : TransferFactory(parent, args)
 {
 }
 
-metalinkFactory::~metalinkFactory()
+metalinkHttpFactory::~metalinkHttpFactory()
 {
 }
 
-Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
+Transfer * metalinkHttpFactory::createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
                                                TransferGroup * parent,
                                                Scheduler * scheduler,
                                                const QDomElement * e )
 {
-    kDebug(5001) << "metalinkFactory::createTransfer";
-
-    if (isSupported(srcUrl))
-    {
-        return new Metalink(parent, this, scheduler, srcUrl, destUrl, e);
-    }
     return 0;
 }
 
-bool metalinkFactory::isSupported(const KUrl &url) const
+bool metalinkHttpFactory::isSupported(const KUrl &url)
 {
-    return (url.fileName().endsWith(QLatin1String(".metalink")) || url.fileName().endsWith(QLatin1String(".meta4")));
+    m_metalinkHttpChecker = new KGetMetalink::metalinkHttpParser(url);
+    if (m_metalinkHttpChecker->isMetalinkHttp()) {
+        return true;
+    }
+    return false;
 }
