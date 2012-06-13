@@ -24,7 +24,35 @@
 
 class MetalinkHttp : public Metalink
 {
-    bool m_dummy; //Just to check compilation. Ignore me.
+    public:
+    MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
+                Scheduler * scheduler, const KUrl & src, const KUrl & dest,
+                const QDomElement * e = 0);
+    ~MetalinkHttp();
+
+    public Q_SLOTS:
+    // --- Job virtual functions ---
+        void start();
+        void stop();
+
+        void deinit(Transfer::DeleteOptions options);
+
+    private Q_SLOTS:
+        /**
+        * @return true if initialising worked
+        * @note false does not mean that an error happened, it could mean, that the user
+        * decided to update the metalink
+        */
+        bool metalinkHttpInit(const KUrl &url = KUrl(), const QByteArray &data = QByteArray());
+
+        void fileDlgFinished(int result);
+
+    private:
+        void startMetalinkHTTP();
+        KGetMetalink::metalinkHttpParser * m_httpparser;
+        KGetMetalink::httpLinkHeader m_linkheader;
+
+
 };
 
 #endif //METALINKHTTP_H
