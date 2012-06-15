@@ -104,7 +104,7 @@ class Metalink : public Transfer
         void recalculateSpeed();
         void updateStatus(DataSourceFactory *sender, bool *changeStatus);
 
-    private:
+    protected:
         FileModel *m_fileModel;
         int m_currentFiles;
         bool m_metalinkJustDownloaded;
