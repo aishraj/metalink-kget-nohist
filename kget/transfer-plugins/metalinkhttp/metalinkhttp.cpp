@@ -40,6 +40,27 @@
 #include <QtCore/QFile>
 #include <QtXml/QDomElement>
 
+MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
+                         Scheduler * scheduler, const KUrl & source, const KUrl & dest,
+                         const QDomElement * e, const KGetMetalink::metalinkHttpParser &httpParser)
+    : Metalink(parent, factory,scheduler,source, dest, e)
+{
+    m_httpparser = &httpParser;
+}
 
+MetalinkHttp::~MetalinkHttp()
+{
+
+}
+
+void MetalinkHttp::start()
+{
+    kdDebug(5001) << "metalinkhttp::start";
+
+    if (!m_ready)
+    {
+        metalinkHttpInit();
+    }
+}
 
 #include "metalinkhttp.moc"

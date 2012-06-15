@@ -1,5 +1,6 @@
 /***************************************************************************
 *   Copyright (C) 2009 Matthias Fuchs <mat69@gmx.net>                     *
+*   Copyright (C) 2012 Aish Raj Dahal <dahalaishraj@gmail.com>            *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
 *   it under the terms of the GNU General Public License as published by  *
@@ -428,6 +429,7 @@ class metalinkHttpParser : public QObject
 
         ~metalinkHttpParser();
         bool isMetalinkHttp();
+        KUrl getUrl();
 
     private slots:
         void slotHeaderResult(KJob* kjob);

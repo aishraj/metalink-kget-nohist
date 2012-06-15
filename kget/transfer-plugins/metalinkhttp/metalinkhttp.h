@@ -27,7 +27,7 @@ class MetalinkHttp : public Metalink
     public:
     MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                 Scheduler * scheduler, const KUrl & src, const KUrl & dest,
-                const QDomElement * e = 0);
+                const QDomElement * e = 0, const KGetMetalink::metalinkHttpParser & httpParser);
     ~MetalinkHttp();
 
     public Q_SLOTS:
@@ -43,13 +43,13 @@ class MetalinkHttp : public Metalink
         * @note false does not mean that an error happened, it could mean, that the user
         * decided to update the metalink
         */
-        bool metalinkHttpInit(const KUrl &url = KUrl(), const QByteArray &data = QByteArray());
+        bool metalinkHttpInit();
 
         void fileDlgFinished(int result);
 
     private:
         void startMetalinkHTTP();
-        KGetMetalink::metalinkHttpParser * m_httpparser;
+        KGetMetalink::metalinkHttpParser *m_httpparser;
         KGetMetalink::httpLinkHeader m_linkheader;
 
 

@@ -1344,7 +1344,7 @@ KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 
 void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 {
-
+    //TODO check the validity of the URL - ardahal
     KIO::SimpleJob *job;
     job = KIO::get(m_Url);
     job->addMetaData("PropagateHttpHeader", "true");
@@ -1412,6 +1412,11 @@ void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
         m_MetalinkHSatus = true;
     }
 
+}
+
+KUrl KGetMetalink::metalinkHttpParser::getUrl()
+{
+    return m_Url;
 }
 
 void KGetMetalink::httpLinkHeader::headerBuilder(const QString &line)
