@@ -22,12 +22,14 @@
 #include "ui/metalinkcreator/metalinker.h"
 
 
-class MetalinkHttp : public Metalink
+class MetalinkHttp : private Metalink
 {
+    Q_OBJECT
+
     public:
     MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                 Scheduler * scheduler, const KUrl & src, const KUrl & dest,
-                const QDomElement * e = 0, const KGetMetalink::metalinkHttpParser & httpParser);
+                const QDomElement * e = 0, const KGetMetalink::metalinkHttpParser*  httpParser);
     ~MetalinkHttp();
 
     public Q_SLOTS:

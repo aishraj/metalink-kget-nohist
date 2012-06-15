@@ -42,10 +42,10 @@
 
 MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                          Scheduler * scheduler, const KUrl & source, const KUrl & dest,
-                         const QDomElement * e, const KGetMetalink::metalinkHttpParser &httpParser)
+                         const QDomElement * e, const KGetMetalink::metalinkHttpParser *httpParser)
     : Metalink(parent, factory,scheduler,source, dest, e)
 {
-    m_httpparser = &httpParser;
+    m_httpparser = httpParser;
 }
 
 MetalinkHttp::~MetalinkHttp()
@@ -64,3 +64,4 @@ void MetalinkHttp::start()
 }
 
 #include "metalinkhttp.moc"
+
