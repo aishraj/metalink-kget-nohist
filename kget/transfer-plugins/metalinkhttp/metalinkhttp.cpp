@@ -59,7 +59,7 @@ void MetalinkHttp::start()
 
     if (!m_ready)
     {
-        metalinkHttpInit();
+        //metalinkHttpInit();
     }
 }
 

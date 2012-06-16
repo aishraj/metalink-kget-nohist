@@ -22,7 +22,7 @@
 #include "ui/metalinkcreator/metalinker.h"
 
 
-class MetalinkHttp : protected Metalink
+class MetalinkHttp : public Metalink
 {
     Q_OBJECT
 

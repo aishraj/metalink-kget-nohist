@@ -74,7 +74,7 @@ class Metalink : public Transfer
 
         void deinit(Transfer::DeleteOptions options);
 
-    private Q_SLOTS:
+    protected Q_SLOTS:
         /**
          * @return true if initialising worked
          * @note false does not mean that an error happened, it could mean, that the user
@@ -95,7 +95,7 @@ class Metalink : public Transfer
         void slotVerified(bool isVerified);
         void slotSignatureVerified();
 
-    private :
+    protected :
         void downloadMetalink();
         void startMetalink();
         void untickAllFiles();
