@@ -1,6 +1,5 @@
 /* This file is part of the KDE project
 
-   Copyright (C) 2004 Dario Massarin <nekkar@libero.it>
    Copyright (C) 2012 Aish Raj Dahal <dahalaishraj@gmail.com>
 
    This program is free software; you can redistribute it and/or
@@ -17,9 +16,9 @@
 
 #include "core/datasourcefactory.h"
 #include "core/transfer.h"
-#include "transfer-plugins/metalink/metalink.h"
 
 #include "ui/metalinkcreator/metalinker.h"
+#include "transfer-plugins/metalink/metalink.h"
 
 
 class MetalinkHttp : public Metalink
@@ -27,34 +26,19 @@ class MetalinkHttp : public Metalink
     Q_OBJECT
 
     public:
-    MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
-                Scheduler * scheduler, const KUrl & src, const KUrl & dest,
-                const KGetMetalink::metalinkHttpParser*  httpParser,const QDomElement * e = 0 );
-    ~MetalinkHttp();
+        MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
+                    Scheduler * scheduler, const KUrl & src, const KUrl & dest,
+                    const KGetMetalink::metalinkHttpParser* headerParser,
+                    const QDomElement * e = 0);
 
-    public Q_SLOTS:
-    // --- Job virtual functions ---
+        ~MetalinkHttp();
+
         void start();
         void stop();
 
-        void deinit(Transfer::DeleteOptions options);
-
-    private Q_SLOTS:
-        /**
-        * @return true if initialising worked
-        * @note false does not mean that an error happened, it could mean, that the user
-        * decided to update the metalink
-        */
-        bool metalinkHttpInit();
-
-        void fileDlgFinished(int result);
-
     private:
-        void startMetalinkHTTP();
-        const KGetMetalink::metalinkHttpParser *m_httpparser;
-        KGetMetalink::httpLinkHeader m_linkheader;
+        const KGetMetalink::metalinkHttpParser* m_httpparser;
 
+        };
 
-};
-
-#endif //METALINKHTTP_H
+#endif
