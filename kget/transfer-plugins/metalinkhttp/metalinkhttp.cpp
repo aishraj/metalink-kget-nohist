@@ -44,7 +44,7 @@ MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                          Scheduler * scheduler, const KUrl & source, const KUrl & dest,
                          const KGetMetalink::metalinkHttpParser *httpParser,
                          const QDomElement * e)
-    : Metalink(parent, factory,scheduler,source, dest, e) ,
+    : AbstractMetalink(parent, factory,scheduler,source, dest, e) ,
       m_httpparser(httpParser)
 {
 

@@ -18,11 +18,11 @@
 #include "core/transfer.h"
 
 #include "ui/metalinkcreator/metalinker.h"
-#include "transfer-plugins/metalink/metalink.h"
+#include "core/abstractmetalink.h"
 
-class Metalink;
 
-class MetalinkHttp : public Metalink
+
+class MetalinkHttp : public AbstractMetalink
 {
     public:
         MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
