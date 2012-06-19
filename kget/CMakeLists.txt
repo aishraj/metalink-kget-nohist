@@ -123,6 +123,7 @@ set(kgetcore_SRCS
    core/basedialog.cpp
    core/mostlocalurl.cpp
    core/filedeleter.cpp
+   core/abstractmetalink.cpp
 )
 
 if(HAVE_NEPOMUK)

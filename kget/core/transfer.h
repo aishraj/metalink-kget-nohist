@@ -102,7 +102,7 @@ class KGET_EXPORT Transfer : public Job
                  Scheduler * scheduler, const KUrl & src, const KUrl & dest,
                  const QDomElement * e = 0);
 
-        virtual ~Transfer();
+         ~Transfer();
 
         /**
          * Returns the capabilities this Transfer supports

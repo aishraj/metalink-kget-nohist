@@ -69,7 +69,3 @@ void MetalinkHttp::stop()
 {
 
 }
-
-#include "metalinkhttp.moc"
-
-

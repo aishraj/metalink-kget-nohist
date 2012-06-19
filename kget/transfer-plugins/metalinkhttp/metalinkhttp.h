@@ -20,11 +20,10 @@
 #include "ui/metalinkcreator/metalinker.h"
 #include "transfer-plugins/metalink/metalink.h"
 
+class Metalink;
 
 class MetalinkHttp : public Metalink
 {
-    Q_OBJECT
-
     public:
         MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                     Scheduler * scheduler, const KUrl & src, const KUrl & dest,
@@ -38,7 +37,7 @@ class MetalinkHttp : public Metalink
 
     private:
         const KGetMetalink::metalinkHttpParser* m_httpparser;
-
+        KGetMetalink::httpLinkHeader  m_linkHeaderInfo;
         };
 
 #endif
