@@ -10,7 +10,7 @@
 
 #include "dlgmetalink.h"
 
-#include "metalinksettings.h"
+#include "metalinkxmlsettings.h"
 
 #include "kget_export.h"
 
@@ -32,18 +32,18 @@ DlgSettingsWidget::~DlgSettingsWidget()
 
 void DlgSettingsWidget::load()
 {
-    ui.numSimultanousFiles->setValue(MetalinkSettings::simultanousFiles());
-    ui.kcfg_MirrorsPerFile->setValue(MetalinkSettings::mirrorsPerFile());
-    ui.kcfg_ConnectionsPerUrl->setValue(MetalinkSettings::connectionsPerUrl());
+    ui.numSimultanousFiles->setValue(MetalinkXmlSettings::simultanousFiles());
+    ui.kcfg_MirrorsPerFile->setValue(MetalinkXmlSettings::mirrorsPerFile());
+    ui.kcfg_ConnectionsPerUrl->setValue(MetalinkXmlSettings::connectionsPerUrl());
 }
 
 void DlgSettingsWidget::save()
 {
-    MetalinkSettings::setSimultanousFiles(ui.numSimultanousFiles->value());
-    MetalinkSettings::setMirrorsPerFile(ui.kcfg_MirrorsPerFile->value());
-    MetalinkSettings::setConnectionsPerUrl(ui.kcfg_ConnectionsPerUrl->value());
+    MetalinkXmlSettings::setSimultanousFiles(ui.numSimultanousFiles->value());
+    MetalinkXmlSettings::setMirrorsPerFile(ui.kcfg_MirrorsPerFile->value());
+    MetalinkXmlSettings::setConnectionsPerUrl(ui.kcfg_ConnectionsPerUrl->value());
 
-    MetalinkSettings::self()->writeConfig();
+    MetalinkXmlSettings::self()->writeConfig();
 }
 
 #include "dlgmetalink.moc"

@@ -2,10 +2,10 @@
 Type=Service
 X-KDE-ServiceTypes=KCModule
 
-X-KDE-Library=kcm_kget_metalinkfactory
-X-KDE-ParentComponents=kget_metalink_plugin
+X-KDE-Library=kcm_kget_metalinkxmlfactory
+X-KDE-ParentComponents=kget_metalinkxml_plugin
 
-Name=Metalink
+Name=Metalink XML
 Name[ar]=ميتالينك
 Name[ast]=Metalink
 Name[bg]=Metalink

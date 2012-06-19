@@ -9,26 +9,26 @@
    version 2 of the License, or (at your option) any later version.
 */
 
-#include "metalinkfactory.h"
+#include "metalinkxmlfactory.h"
 
 #include "core/scheduler.h"
 #include "core/transfergroup.h"
-#include "metalink.h"
+#include "metalinkxml.h"
 
 #include <kdebug.h>
 
-KGET_EXPORT_PLUGIN( metalinkFactory )
+KGET_EXPORT_PLUGIN( metalinkXmlFactory )
 
-metalinkFactory::metalinkFactory(QObject *parent, const QVariantList &args)
+metalinkXmlFactory::metalinkXmlFactory(QObject *parent, const QVariantList &args)
   : TransferFactory(parent, args)
 {
 }
 
-metalinkFactory::~metalinkFactory()
+metalinkXmlFactory::~metalinkXmlFactory()
 {
 }
 
-Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
+Transfer * metalinkXmlFactory::createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
                                                TransferGroup * parent,
                                                Scheduler * scheduler,
                                                const QDomElement * e )
@@ -37,12 +37,12 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
 
     if (isSupported(srcUrl))
     {
-        return new Metalink(parent, this, scheduler, srcUrl, destUrl, e);
+        return new MetalinkXml(parent, this, scheduler, srcUrl, destUrl, e);
     }
     return 0;
 }
 
-bool metalinkFactory::isSupported(const KUrl &url) const
+bool metalinkXmlFactory::isSupported(const KUrl &url) const
 {
     return (url.fileName().endsWith(QLatin1String(".metalink")) || url.fileName().endsWith(QLatin1String(".meta4")));
 }

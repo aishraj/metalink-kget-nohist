@@ -5,7 +5,7 @@ X-KDE-ServiceTypes=KGet/Plugin
 Icon=kget
 
 # standard fields
-Name=Metalink
+Name=Metalink XML
 Name[ar]=ميتالينك
 Name[ast]=Metalink
 Name[bg]=Metalink
@@ -113,7 +113,7 @@ Comment[zh_CN]=根据元链接下载文件
 Comment[zh_TW]=允許從 Metalink 下載檔案
 
 # options for library loader
-X-KDE-Library=kget_metalinkfactory
+X-KDE-Library=kget_metalinkxmlfactory
 X-KDE-KGet-plugintype=TransferFactory
 X-KDE-KGet-rank=90
 X-KDE-KGet-framework-version=1
@@ -124,5 +124,5 @@ X-KDE-PluginInfo-Version=1.0
 X-KDE-PluginInfo-Category=Service
 X-KDE-PluginInfo-License=GPL
 X-KDE-PluginInfo-EnabledByDefault=true
-X-KDE-PluginInfo-Name=kget_metalink_plugin
+X-KDE-PluginInfo-Name=kget_metalinkxml_plugin
 

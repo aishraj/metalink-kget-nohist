@@ -16,56 +16,24 @@
 
 #include "core/datasourcefactory.h"
 #include "core/transfer.h"
+#include "core/abstractmetalink.h"
 
 #include "ui/metalinkcreator/metalinker.h"
 
 
-class Metalink : public Transfer
+class MetalinkXml : public AbstractMetalink
 {
     Q_OBJECT
 
     public:
-        Metalink(TransferGroup * parent, TransferFactory * factory,
+        MetalinkXml(TransferGroup * parent, TransferFactory * factory,
                     Scheduler * scheduler, const KUrl & src, const KUrl & dest,
                     const QDomElement * e = 0);
 
-        ~Metalink();
+        ~MetalinkXml();
 
         void save(const QDomElement &element);
         void load(const QDomElement *e);
-
-        /**
-         * Reimplemented to return a time based on the average of the last three speeds
-         */
-        int remainingTime() const;
-
-        bool repair(const KUrl &file = KUrl());
-
-        /**
-         * Move the download to the new destination
-         * @param newDirectory is a directory where the download should be stored
-         * @returns true if newDestination can be used
-         */
-        virtual bool setDirectory(const KUrl &newDirectory);
-
-        QHash<KUrl, QPair<bool, int> > availableMirrors(const KUrl &file) const;
-        void setAvailableMirrors(const KUrl &file, const QHash<KUrl, QPair<bool, int> > &mirrors);
-
-        /**
-         * @param file for which to get the verifier
-         * @return Verifier that allows you to add checksums manually verify a file etc.
-         */
-        virtual Verifier *verifier(const KUrl &file);
-
-        /**
-         * @param file for which to get the signature
-         * @return Signature that allows you to add signatures and verify them
-         */
-        virtual Signature *signature(const KUrl &file);
-
-        virtual QList<KUrl> files() const;
-
-        FileModel *fileModel();
 
     public Q_SLOTS:
         // --- Job virtual functions ---
@@ -89,32 +57,17 @@ class Metalink : public Transfer
          * setDoDownload(bool) methods.
          */
         void filesSelected();
-        void slotUpdateCapabilities();
-        void slotDataSourceFactoryChange(Transfer::ChangesFlags change);
-        void slotRename(const KUrl &oldUrl, const KUrl &newUrl);
-        void slotVerified(bool isVerified);
-        void slotSignatureVerified();
 
     protected :
         void downloadMetalink();
         void startMetalink();
         void untickAllFiles();
-        void recalculateTotalSize(DataSourceFactory *sender);
-        void recalculateProcessedSize();
-        void recalculateSpeed();
-        void updateStatus(DataSourceFactory *sender, bool *changeStatus);
 
-    protected:
-        FileModel *m_fileModel;
-        int m_currentFiles;
+    private:
         bool m_metalinkJustDownloaded;
         KUrl m_localMetalinkLocation;
         KGetMetalink::Metalink m_metalink;
         QHash<KUrl, DataSourceFactory*> m_dataSourceFactory;
-        bool m_ready;
-        int m_speedCount;
-        int m_tempAverageSpeed;
-        mutable int m_averageSpeed;
         int m_numFilesSelected;//The number of files that are ticked and should be downloaded
 };
 

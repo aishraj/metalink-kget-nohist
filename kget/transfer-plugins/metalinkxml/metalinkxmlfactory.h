@@ -19,18 +19,18 @@ class TransferGroup;
 class Scheduler;
 
 
-class metalinkFactory : public TransferFactory
+class metalinkXmlFactory : public TransferFactory
 {
     Q_OBJECT
     public:
-        metalinkFactory(QObject *parent, const QVariantList &args);
-        ~metalinkFactory();
+        metalinkXmlFactory(QObject *parent, const QVariantList &args);
+        ~metalinkXmlFactory();
 
         Transfer * createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
                                    TransferGroup * parent, Scheduler * scheduler,
                                    const QDomElement * e = 0 );
 
-        QString displayName(){return "MetaLink";}
+        QString displayName(){return "MetaLink XML";}
         
         bool isSupported(const KUrl &url) const;
 };

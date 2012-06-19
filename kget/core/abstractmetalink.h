@@ -83,7 +83,6 @@ class KGET_EXPORT AbstractMetalink : public Transfer
 
     protected :
         virtual void startMetalink() = 0;
-        void untickAllFiles();
         void recalculateTotalSize(DataSourceFactory *sender);
         void recalculateProcessedSize();
         void recalculateSpeed();
