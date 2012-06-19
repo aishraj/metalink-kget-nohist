@@ -12,7 +12,7 @@
 
 #include "metalinkxml.h"
 #include "fileselectiondlg.h"
-#include "metalinkxmlsettings.h"
+#include "metalinksettings.h"
 
 #include "core/kget.h"
 #include "core/transfergroup.h"
@@ -137,7 +137,7 @@ bool MetalinkXml::metalinkInit(const KUrl &src, const QByteArray &data)
 
         //create a DataSourceFactory for each separate file
         DataSourceFactory *dataFactory = new DataSourceFactory(this, dest, fileSize, segSize);
-        dataFactory->setMaxMirrorsUsed(MetalinkXmlSettings::mirrorsPerFile());
+        dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
 #ifdef HAVE_NEPOMUK
         nepomukHandler()->setProperties((*it).properties(), QList<KUrl>() << dest);
@@ -157,7 +157,7 @@ bool MetalinkXml::metalinkInit(const KUrl &src, const QByteArray &data)
             const KUrl url = urlList[i].url;
             if (url.isValid())
             {
-                dataFactory->addMirror(url, MetalinkXmlSettings::connectionsPerUrl());
+                dataFactory->addMirror(url, MetalinkSettings::connectionsPerUrl());
             }
         }
         //no datasource has been created, so remove the datasource factory
@@ -252,7 +252,7 @@ void MetalinkXml::startMetalink()
         foreach (DataSourceFactory *factory, m_dataSourceFactory)
         {
             //specified number of files is downloaded simultanously
-            if (m_currentFiles < MetalinkXmlSettings::simultanousFiles())
+            if (m_currentFiles < MetalinkSettings::simultanousFiles())
             {
                 const int status = factory->status();
                 //only start factories that should be downloaded
@@ -344,7 +344,7 @@ void MetalinkXml::load(const QDomElement *element)
 
         //start the DataSourceFactories that were Started when KGet was closed
         if (file->status() == Job::Running) {
-            if (m_currentFiles < MetalinkXmlSettings::simultanousFiles()) {
+            if (m_currentFiles < MetalinkSettings::simultanousFiles()) {
                 ++m_currentFiles;
                 file->start();
             } else {

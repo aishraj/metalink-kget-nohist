@@ -13,7 +13,8 @@
 
 #include "core/scheduler.h"
 #include "core/transfergroup.h"
-#include "metalink.h"
+#include "metalinkhttp.h"
+#include "metalinkxml.h"
 
 #include <kdebug.h>
 
@@ -37,7 +38,7 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
 
     if (isSupported(srcUrl))
     {
-        return new Metalink(parent, this, scheduler, srcUrl, destUrl, e);
+        return new MetalinkXml(parent, this, scheduler, srcUrl, destUrl, e);
     }
     return 0;
 }

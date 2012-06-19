@@ -17,12 +17,12 @@
 
 #include "core/datasourcefactory.h"
 #include "core/transfer.h"
-#include "transfer-plugins/metalink/metalink.h"
+#include "transfer-plugins/metalink/abstractmetalink.h"
 
 #include "ui/metalinkcreator/metalinker.h"
 
 
-class MetalinkHttp : public Metalink
+class MetalinkHttp : public AbstractMetalink
 {
     Q_OBJECT
 
@@ -46,8 +46,6 @@ class MetalinkHttp : public Metalink
         * decided to update the metalink
         */
         bool metalinkHttpInit();
-
-        void fileDlgFinished(int result);
 
     private:
         void startMetalinkHTTP();

@@ -16,7 +16,7 @@
 
 #include "core/datasourcefactory.h"
 #include "core/transfer.h"
-#include "core/abstractmetalink.h"
+#include "abstractmetalink.h"
 
 #include "ui/metalinkcreator/metalinker.h"
 

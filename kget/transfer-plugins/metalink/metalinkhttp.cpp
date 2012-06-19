@@ -12,7 +12,7 @@
 */
 
 #include "metalinkhttp.h"
-#include "metalinkhttpsettings.h"
+#include "metalinksettings.h"
 
 #include "core/kget.h"
 #include "core/transfergroup.h"
@@ -66,6 +66,16 @@ void MetalinkHttp::start()
 }
 
 void MetalinkHttp::stop()
+{
+
+}
+
+bool MetalinkHttp::metalinkHttpInit()
+{
+    return true;
+}
+
+void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 {
 
 }
