@@ -1,7 +1,6 @@
 add_subdirectory(kio)
 add_subdirectory(multisegmentkio)
 add_subdirectory(metalink)
-add_subdirectory(metalinkhttp)
 if (LIBKTORRENT_FOUND)
   add_subdirectory(bittorrent)
 endif (LIBKTORRENT_FOUND)

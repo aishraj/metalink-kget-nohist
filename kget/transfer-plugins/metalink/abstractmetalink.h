@@ -1,6 +1,6 @@
 /* This file is part of the KDE project
 
-   Copyright (C) 2004 Dario Massarin <nekkar@libero.it>
+   Copyright (C) 2012 by Aish Raj Dahal <dahalaishraj@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -8,9 +8,9 @@
    version 2 of the License, or (at your option) any later version.
 */
 
+#ifndef ABSTRACTMETALINK_H
+#define ABSTRACTMETALINK_H
 
-#ifndef METALINK_H
-#define METALINK_H
 
 #include <KIO/Job>
 
@@ -19,24 +19,19 @@
 
 #include "ui/metalinkcreator/metalinker.h"
 
-
-class Metalink : public Transfer
+class KGET_EXPORT AbstractMetalink : public Transfer
 {
     Q_OBJECT
 
     public:
-        Metalink(TransferGroup * parent, TransferFactory * factory,
-                    Scheduler * scheduler, const KUrl & src, const KUrl & dest,
-                    const QDomElement * e = 0);
+        AbstractMetalink(TransferGroup * parent, TransferFactory * factory,
+                         Scheduler * scheduler, const KUrl & src, const KUrl & dest,
+                         const QDomElement * e = 0);
+        virtual ~AbstractMetalink();
 
-        ~Metalink();
+        virtual void save(const QDomElement &element) = 0;
+        virtual void load(const QDomElement *element) = 0;
 
-        void save(const QDomElement &element);
-        void load(const QDomElement *e);
-
-        /**
-         * Reimplemented to return a time based on the average of the last three speeds
-         */
         int remainingTime() const;
 
         bool repair(const KUrl &file = KUrl());
@@ -69,10 +64,9 @@ class Metalink : public Transfer
 
     public Q_SLOTS:
         // --- Job virtual functions ---
-        void start();
-        void stop();
-
-        void deinit(Transfer::DeleteOptions options);
+        virtual void start() = 0;
+        virtual void stop() = 0;
+        virtual void deinit(Transfer::DeleteOptions options) = 0;
 
     protected Q_SLOTS:
         /**
@@ -80,15 +74,7 @@ class Metalink : public Transfer
          * @note false does not mean that an error happened, it could mean, that the user
          * decided to update the metalink
          */
-        bool metalinkInit(const KUrl &url = KUrl(), const QByteArray &data = QByteArray());
 
-        void fileDlgFinished(int result);
-        /**
-         * Checks if the ticked (not started yet) files exist already on the hd and asks
-         * the user how to proceed in that case. Also calls the according DataSourceFactories
-         * setDoDownload(bool) methods.
-         */
-        void filesSelected();
         void slotUpdateCapabilities();
         void slotDataSourceFactoryChange(Transfer::ChangesFlags change);
         void slotRename(const KUrl &oldUrl, const KUrl &newUrl);
@@ -96,9 +82,7 @@ class Metalink : public Transfer
         void slotSignatureVerified();
 
     protected :
-        void downloadMetalink();
-        void startMetalink();
-        void untickAllFiles();
+        virtual void startMetalink() = 0;
         void recalculateTotalSize(DataSourceFactory *sender);
         void recalculateProcessedSize();
         void recalculateSpeed();
@@ -107,15 +91,11 @@ class Metalink : public Transfer
     protected:
         FileModel *m_fileModel;
         int m_currentFiles;
-        bool m_metalinkJustDownloaded;
-        KUrl m_localMetalinkLocation;
-        KGetMetalink::Metalink m_metalink;
         QHash<KUrl, DataSourceFactory*> m_dataSourceFactory;
         bool m_ready;
         int m_speedCount;
         int m_tempAverageSpeed;
         mutable int m_averageSpeed;
-        int m_numFilesSelected;//The number of files that are ticked and should be downloaded
 };
 
 #endif
