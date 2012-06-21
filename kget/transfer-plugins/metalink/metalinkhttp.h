@@ -50,10 +50,11 @@ class MetalinkHttp : public AbstractMetalink
         void setLinks();
 
     private:
-        void startMetalinkHTTP();
+        void startMetalink();
         const KGetMetalink::metalinkHttpParser *m_httpparser;
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
-        QList<QString, QString> m_DigestList;
+        QHash<QString, QString> m_DigestList;
+        DataSourceFactory* m_dataSourceFactory;
 
 
 };
