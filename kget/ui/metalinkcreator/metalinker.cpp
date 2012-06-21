@@ -1419,6 +1419,11 @@ KUrl KGetMetalink::metalinkHttpParser::getUrl()
     return m_Url;
 }
 
+QMultiMap<QString, QString>* KGetMetalink::metalinkHttpParser::getHeaderInfo()
+{
+    return & m_headerInfo;
+}
+
 void KGetMetalink::httpLinkHeader::headerBuilder(const QString &line)
 {
     QList<QString> attribList = line.split(";");

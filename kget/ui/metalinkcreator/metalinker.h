@@ -421,8 +421,7 @@ class metalinkHttpParser : public QObject
     Q_OBJECT
     public:
         metalinkHttpParser(const KUrl& Url)
-          : m_Url(Url),
-            m_MetalinkHSatus(false)
+          : m_Url(Url), m_MetalinkHSatus(false)
         {
             checkMetalinkHttp();
         }
@@ -430,6 +429,7 @@ class metalinkHttpParser : public QObject
         ~metalinkHttpParser();
         bool isMetalinkHttp();
         KUrl getUrl();
+        QMultiMap<QString, QString>* getHeaderInfo();
 
     private slots:
         void slotHeaderResult(KJob* kjob);
@@ -448,9 +448,10 @@ class metalinkHttpParser : public QObject
 class httpLinkHeader : public Metaurl
 {
     public:
-        httpLinkHeader()
+        httpLinkHeader(const QString & link)
             : m_pref(false)
         {
+            headerBuilder(link);
         }
 
         QString m_reltype;
@@ -465,6 +466,7 @@ class httpLinkHeader : public Metaurl
         void headerBuilder(const QString &);
 
 };
+
 }
 
 #endif // Metalinker_H

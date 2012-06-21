@@ -43,7 +43,14 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
     return 0;
 }
 
-bool metalinkFactory::isSupported(const KUrl &url) const
+bool metalinkFactory::isSupported(const KUrl &url)
 {
+    m_metalinkHttpChecker = new KGetMetalink::metalinkHttpParser(url);
+        if (m_metalinkHttpChecker->isMetalinkHttp()) {
+            kDebug(5001) << "This is metalinkhttp";
+        }
+        else {
+                kDebug(5001) << "This is not metalinkhttp";
+        }
     return (url.fileName().endsWith(QLatin1String(".metalink")) || url.fileName().endsWith(QLatin1String(".meta4")));
 }

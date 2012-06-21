@@ -61,7 +61,7 @@ void MetalinkHttp::start()
 
     if (!m_ready)
     {
-        //metalinkHttpInit();
+        metalinkHttpInit();
     }
 }
 
@@ -72,10 +72,34 @@ void MetalinkHttp::stop()
 
 bool MetalinkHttp::metalinkHttpInit()
 {
-    return true;
+    setLinks();
+    setDigests();
+
+}
+
+void MetalinkHttp::setLinks()
+{
+    QMultiMap<QString, QString>* headerInf = m_httpparser->getHeaderInfo();
+    QList<QString> linkVals = headerInf->values("link");
+    foreach ( QString link, linkVals) {
+        KGetMetalink::httpLinkHeader linkheader(link);
+        m_linkheaderList.insert(linkheader);
+    }
 }
 
 void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 {
 
+}
+
+void MetalinkHttp::setDigests()
+{
+    QMultiMap<QString, QString>* digestInfo = m_httpparser->getHeaderInfo();
+    QList<QString> digestList = digestInfo->values("digest");
+    foreach( QString digest, digestList) {
+        int eqDelimiter = digest.indexOf('=');
+        QString digestType = digest.left(eqDelimiter).trimmed();
+        QString digestValue = digest.mid(eqDelimiter + 1).trimmed();
+        digestInfo->insertMulti(digestType,digestValue);
+    }
 }

@@ -46,11 +46,14 @@ class MetalinkHttp : public AbstractMetalink
         * decided to update the metalink
         */
         bool metalinkHttpInit();
+        void setDigests();
+        void setLinks();
 
     private:
         void startMetalinkHTTP();
         const KGetMetalink::metalinkHttpParser *m_httpparser;
-        KGetMetalink::httpLinkHeader m_linkheader;
+        QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
+        QList<QString, QString> m_DigestList;
 
 
 };
