@@ -42,7 +42,7 @@
 
 MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                          Scheduler * scheduler, const KUrl & source, const KUrl & dest,
-                         const KGetMetalink::metalinkHttpParser *httpParser,
+                         KGetMetalink::metalinkHttpParser *httpParser,
                          const QDomElement * e)
     : AbstractMetalink(parent, factory,scheduler,source, dest, e) ,
       m_httpparser(httpParser)
@@ -87,7 +87,7 @@ void MetalinkHttp::start()
 
 void MetalinkHttp::stop()
 {
-    DataSourceFactory* factory;
+    DataSourceFactory* factory = m_dataSourceFactory;
     kDebug(5001) << "metalinkhtt::Stop";
     if (m_ready && status() != Stopped)
     {
@@ -96,8 +96,9 @@ void MetalinkHttp::stop()
 }
 
 bool MetalinkHttp::metalinkHttpInit()
-{
-    qSort(m_linkheaderList.begin(), m_linkheaderList.end(), qGreater<KGetMetalink::httpLinkHeader());
+{  
+    //TODO need to sort the headerlist. Need to ask boom1992
+    //qStableSort(m_linkheaderList.constBegin(), m_linkheaderList.constEnd(), qGreater<KGetMetalink::httpLinkHeader());
     KUrl dest = KUrl(m_dest.directory());
     DataSourceFactory *dataFactory = new DataSourceFactory(this,dest);
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
