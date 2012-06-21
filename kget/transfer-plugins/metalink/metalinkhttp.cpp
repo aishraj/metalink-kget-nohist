@@ -129,7 +129,7 @@ bool MetalinkHttp::metalinkHttpInit()
 
     m_dataSourceFactory = dataFactory;
 
-    if (!m_dataSourceFactory.size()) {
+    if (!m_dataSourceFactory) {
         //TODO make this via log in the future + do not display the KMessageBox
         kWarning(5001) << "Download of" << m_source << "failed, no working URLs were found.";
         KMessageBox::error(0, i18n("Download failed, no working URLs were found."), i18n("Error"));
@@ -156,18 +156,16 @@ void MetalinkHttp::setLinks()
     QList<QString> linkVals = headerInf->values("link");
     foreach ( QString link, linkVals) {
         KGetMetalink::httpLinkHeader linkheader(link);
-        m_linkheaderList.insert(linkheader);
+        m_linkheaderList.append(linkheader);
     }
 }
 
 void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 {
-    DataSourceFactory* factory() = m_dataSourceFactory;
+    DataSourceFactory* factory = m_dataSourceFactory;
     if (options & Transfer::DeleteFiles) {
         factory->deinit();
     }
-}
-
 }
 
 void MetalinkHttp::setDigests()
