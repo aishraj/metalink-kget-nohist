@@ -32,7 +32,7 @@ class metalinkFactory : public TransferFactory
 
         QString displayName(){return "MetaLink";}
         
-        bool isSupported(const KUrl &url);
+        bool isSupported(const KUrl &url) const;
 
    private:
         KGetMetalink::metalinkHttpParser *m_metalinkHttpChecker;

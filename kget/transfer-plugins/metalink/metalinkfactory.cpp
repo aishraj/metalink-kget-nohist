@@ -36,21 +36,22 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
 {
     kDebug(5001) << "metalinkFactory::createTransfer";
 
-    if (isSupported(srcUrl))
+    m_metalinkHttpChecker = new KGetMetalink::metalinkHttpParser(srcUrl);
+
+    if (m_metalinkHttpChecker->isMetalinkHttp())
     {
+            kDebug(5001) << "This is metalinkhttp";
+            return new MetalinkHttp(parent,this,scheduler,srcUrl,destUrl,m_metalinkHttpChecker,e);
+    }
+    else if (isSupported(srcUrl))
+    {
+        kDebug(5001) << "This is not metalinkhttp";
         return new MetalinkXml(parent, this, scheduler, srcUrl, destUrl, e);
     }
     return 0;
 }
 
-bool metalinkFactory::isSupported(const KUrl &url)
+bool metalinkFactory::isSupported(const KUrl &url) const
 {
-    m_metalinkHttpChecker = new KGetMetalink::metalinkHttpParser(url);
-        if (m_metalinkHttpChecker->isMetalinkHttp()) {
-            kDebug(5001) << "This is metalinkhttp";
-        }
-        else {
-                kDebug(5001) << "This is not metalinkhttp";
-        }
     return (url.fileName().endsWith(QLatin1String(".metalink")) || url.fileName().endsWith(QLatin1String(".meta4")));
 }
