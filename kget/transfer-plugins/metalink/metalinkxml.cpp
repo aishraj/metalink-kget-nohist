@@ -204,6 +204,7 @@ bool MetalinkXml::metalinkInit(const KUrl &src, const QByteArray &data)
 
     //the metalink-file has just been downloaded, so ask the user to choose the files that
     // should be downloaded
+    /* TODO this portion seems not to be working. Need to ask boom1992 */
     if (m_metalinkJustDownloaded) {
         KDialog *dialog = new FileSelectionDlg(fileModel());
         dialog->setAttribute(Qt::WA_DeleteOnClose);

@@ -40,12 +40,12 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
 
     if (m_metalinkHttpChecker->isMetalinkHttp())
     {
-            kDebug(5001) << "This is metalinkhttp";
+            kDebug(5001) << "createtransfer:: This is metalinkhttp";
             return new MetalinkHttp(parent,this,scheduler,srcUrl,destUrl,m_metalinkHttpChecker,e);
     }
     else if (isSupported(srcUrl))
     {
-        kDebug(5001) << "This is not metalinkhttp";
+        kDebug(5001) << "createtransfer:: This is not metalinkhttp";
         return new MetalinkXml(parent, this, scheduler, srcUrl, destUrl, e);
     }
     return 0;
