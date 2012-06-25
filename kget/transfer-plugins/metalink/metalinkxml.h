@@ -67,7 +67,6 @@ class MetalinkXml : public AbstractMetalink
         bool m_metalinkJustDownloaded;
         KUrl m_localMetalinkLocation;
         KGetMetalink::Metalink m_metalink;
-        QHash<KUrl, DataSourceFactory*> m_dataSourceFactory;
         int m_numFilesSelected;//The number of files that are ticked and should be downloaded
 };
 
