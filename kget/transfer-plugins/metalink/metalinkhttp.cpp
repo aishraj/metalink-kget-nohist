@@ -98,7 +98,7 @@ void MetalinkHttp::stop()
 bool MetalinkHttp::metalinkHttpInit()
 {  
     //TODO need to sort the headerlist. Need to ask boom1992
-    qStableSort(m_linkheaderList.constBegin(), m_linkheaderList.constEnd(), qGreater<KGetMetalink::httpLinkHeader());
+    qStableSort(m_linkheaderList);
     KUrl dest = KUrl(m_dest.directory());
     DataSourceFactory *dataFactory = new DataSourceFactory(this,dest);
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
