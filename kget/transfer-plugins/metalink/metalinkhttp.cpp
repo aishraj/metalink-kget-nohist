@@ -103,12 +103,15 @@ void MetalinkHttp::stop()
 bool MetalinkHttp::metalinkHttpInit()
 {
     kDebug() << "metalinkHttp::metalinkHttpInit";
+
+    const KUrl tempDest=  KUrl(m_dest.directory());
+    KUrl dest;
+    dest = tempDest;
+    dest.addPath(m_dest.fileName());
+
     //sort the urls according to their priority (highest first)
     qStableSort(m_linkheaderList);
-    KUrl dest,tempDest;
-    tempDest = KUrl(m_dest.directory());
-    tempDest.addPath(m_dest.fileName());
-    m_dest = tempDest;
+
     DataSourceFactory *dataFactory = new DataSourceFactory(this,dest); //TODO: check the filesize and add a param here
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
@@ -149,7 +152,7 @@ bool MetalinkHttp::metalinkHttpInit()
         //TODO Extend Support to signatures also
     }
 
-    m_dataSourceFactory = dataFactory;
+    m_dest = dest;
 
     if (!m_dataSourceFactory) {
         //TODO make this via log in the future + do not display the KMessageBox
@@ -160,14 +163,16 @@ bool MetalinkHttp::metalinkHttpInit()
         return false;
     }
 
+    m_dataSourceFactory = dataFactory;
+
+
     if (m_dataSourceFactory) {
-        kDebug() << "Data factory is true";
         m_ready = true;
     }
     else {
-        kDebug() << "Setting ready to false" ; //Should not happen. Check this
         m_ready = false;
     }
+    slotUpdateCapabilities();
 
     return true;
 
