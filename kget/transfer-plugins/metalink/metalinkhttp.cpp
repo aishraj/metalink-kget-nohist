@@ -105,7 +105,9 @@ bool MetalinkHttp::metalinkHttpInit()
     kDebug() << "metalinkHttp::metalinkHttpInit";
     //sort the urls according to their priority (highest first)
     qStableSort(m_linkheaderList);
-    KUrl dest = KUrl(m_dest.directory());
+    KUrl dest,tempDest;
+    tempDest = KUrl(m_dest.directory());
+    dest = tempDest.addPath(m_dest.fileName());
     DataSourceFactory *dataFactory = new DataSourceFactory(this,dest); //TODO: check the filesize and add a param here
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
