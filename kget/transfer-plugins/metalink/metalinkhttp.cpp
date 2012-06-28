@@ -75,20 +75,25 @@ void MetalinkHttp::startMetalink()
 
 void MetalinkHttp::start()
 {
-    kdDebug(5001) << "metalinkhttp::start";
+    kDebug() << "metalinkhttp::start";
 
     if (!m_ready)
     {
         setLinks();
         setDigests();
-        metalinkHttpInit();
+        if (metalinkHttpInit()) {
+            startMetalink();
+        }
+    }
+    else {
+        startMetalink();
     }
 }
 
 void MetalinkHttp::stop()
 {
     DataSourceFactory* factory = m_dataSourceFactory;
-    kDebug(5001) << "metalinkhttp::Stop";
+    kDebug() << "metalinkhttp::Stop";
     if (m_ready && status() != Stopped)
     {
         factory->stop();
@@ -101,9 +106,7 @@ bool MetalinkHttp::metalinkHttpInit()
     //sort the urls according to their priority (highest first)
     qStableSort(m_linkheaderList);
     KUrl dest = KUrl(m_dest.directory());
-    KIO::filesize_t def_fileSize = 0;
-     KIO::fileoffset_t segSize = 500 * 1024;//TODO use config here!
-    DataSourceFactory *dataFactory = new DataSourceFactory(this,dest,def_fileSize,segSize); //TODO: check the filesize and add a param here
+    DataSourceFactory *dataFactory = new DataSourceFactory(this,dest); //TODO: check the filesize and add a param here
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
     connect(dataFactory, SIGNAL(capabilitiesChanged()), this, SLOT(slotUpdateCapabilities()));
@@ -112,7 +115,7 @@ bool MetalinkHttp::metalinkHttpInit()
     connect(dataFactory->signature(), SIGNAL(verified(int)), this, SLOT(slotSignatureVerified()));
     connect(dataFactory, SIGNAL(log(QString,Transfer::LogLevel)), this, SLOT(setLog(QString,Transfer::LogLevel)));
 
-    //add the Mirrors
+    //add the Mirrors Sources
 
     for(int i = 0; i < m_linkheaderList.size(); ++i)
     {
@@ -133,7 +136,13 @@ bool MetalinkHttp::metalinkHttpInit()
     {
         //BUG: Cannot add checksum
         //TODO: Remove the bug
-        dataFactory->verifier()->addChecksums(m_DigestList);
+        /* Checking if the values are in uppper or lower case */
+        QHashIterator<QString, QString> itr(m_DigestList);
+        while(itr.hasNext()) {
+            itr.next();
+            kDebug() << itr.key() << ":" << itr.value() ;
+        }
+       // dataFactory->verifier()->addChecksums(m_DigestList);
         //TODO Extend Support to signatures also
     }
 
@@ -149,6 +158,7 @@ bool MetalinkHttp::metalinkHttpInit()
     }
 
     if (m_dataSourceFactory) {
+        kDebug() << "Data factory is true";
         m_ready = true;
     }
     else {
@@ -168,7 +178,9 @@ void MetalinkHttp::setLinks()
     foreach ( QString link, linkVals) {
         KGetMetalink::httpLinkHeader linkheader;
         linkheader.headerBuilder(link);
-        m_linkheaderList.append(linkheader);
+        if (linkheader.m_reltype == "duplicate") {
+            m_linkheaderList.append(linkheader);
+        }
     }
 }
 
