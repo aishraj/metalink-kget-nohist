@@ -107,7 +107,8 @@ bool MetalinkHttp::metalinkHttpInit()
     qStableSort(m_linkheaderList);
     KUrl dest,tempDest;
     tempDest = KUrl(m_dest.directory());
-    dest = tempDest.addPath(m_dest.fileName());
+    dest = tempDest;
+    dest.addPath(m_dest.fileName());
     DataSourceFactory *dataFactory = new DataSourceFactory(this,dest); //TODO: check the filesize and add a param here
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
