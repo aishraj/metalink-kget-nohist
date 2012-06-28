@@ -88,7 +88,7 @@ void MetalinkHttp::start()
 void MetalinkHttp::stop()
 {
     DataSourceFactory* factory = m_dataSourceFactory;
-    kDebug(5001) << "metalinkhtt::Stop";
+    kDebug(5001) << "metalinkhttp::Stop";
     if (m_ready && status() != Stopped)
     {
         factory->stop();
@@ -97,9 +97,13 @@ void MetalinkHttp::stop()
 
 bool MetalinkHttp::metalinkHttpInit()
 {
+    kDebug() << "metalinkHttp::metalinkHttpInit";
+    //sort the urls according to their priority (highest first)
     qStableSort(m_linkheaderList);
     KUrl dest = KUrl(m_dest.directory());
-    DataSourceFactory *dataFactory = new DataSourceFactory(this,dest);
+    KIO::filesize_t def_fileSize = 0;
+     KIO::fileoffset_t segSize = 500 * 1024;//TODO use config here!
+    DataSourceFactory *dataFactory = new DataSourceFactory(this,dest,def_fileSize,segSize); //TODO: check the filesize and add a param here
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
     connect(dataFactory, SIGNAL(capabilitiesChanged()), this, SLOT(slotUpdateCapabilities()));
@@ -107,6 +111,8 @@ bool MetalinkHttp::metalinkHttpInit()
     connect(dataFactory->verifier(), SIGNAL(verified(bool)), this, SLOT(slotVerified(bool)));
     connect(dataFactory->signature(), SIGNAL(verified(int)), this, SLOT(slotSignatureVerified()));
     connect(dataFactory, SIGNAL(log(QString,Transfer::LogLevel)), this, SLOT(setLog(QString,Transfer::LogLevel)));
+
+    //add the Mirrors
 
     for(int i = 0; i < m_linkheaderList.size(); ++i)
     {
@@ -117,12 +123,16 @@ bool MetalinkHttp::metalinkHttpInit()
         }
     }
 
+    //no datasource has been created, so remove the datasource factory
     if (dataFactory->mirrors().isEmpty())
     {
+        kDebug() << "data source factory being deleted" ;
         delete dataFactory;
     }
     else
     {
+        //BUG: Cannot add checksum
+        //TODO: Remove the bug
         dataFactory->verifier()->addChecksums(m_DigestList);
         //TODO Extend Support to signatures also
     }
@@ -152,10 +162,12 @@ bool MetalinkHttp::metalinkHttpInit()
 
 void MetalinkHttp::setLinks()
 {
+    kDebug() << "metalinkHttp::setLinks";
     QMultiMap<QString, QString>* headerInf = m_httpparser->getHeaderInfo();
-    QList<QString> linkVals = headerInf->values("link");
+    QList<QString> linkVals = headerInf->values("link"); //TODO need to check the describedby field also.
     foreach ( QString link, linkVals) {
-        KGetMetalink::httpLinkHeader linkheader(link);
+        KGetMetalink::httpLinkHeader linkheader;
+        linkheader.headerBuilder(link);
         m_linkheaderList.append(linkheader);
     }
 }
@@ -170,6 +182,7 @@ void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 
 void MetalinkHttp::setDigests()
 {
+    kDebug() << "metalinkHttp::setDigests " ;
     QMultiMap<QString, QString>* digestInfo = m_httpparser->getHeaderInfo();
     QList<QString> digestList = digestInfo->values("digest");
     foreach( QString digest, digestList) {

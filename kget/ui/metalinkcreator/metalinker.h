@@ -448,10 +448,10 @@ class metalinkHttpParser : public QObject
 class httpLinkHeader : public Metaurl
 {
     public:
-    httpLinkHeader(const QString & link = QString(""))
+    httpLinkHeader()
             : m_pref(false)
         {
-            headerBuilder(link);
+            //headerBuilder(link);
         }
 
         QString m_reltype;

@@ -1431,6 +1431,8 @@ bool KGetMetalink::httpLinkHeader::operator<(const httpLinkHeader &other) const
 
 void KGetMetalink::httpLinkHeader::headerBuilder(const QString &line)
 {
+    url = line.mid(line.indexOf("<") + 1,line.indexOf(">") -1).trimmed();
+    kDebug() << url;
     QList<QString> attribList = line.split(";");
     foreach ( QString str, attribList) {
         QString attribId = str.mid(0,str.indexOf("=")).trimmed();
