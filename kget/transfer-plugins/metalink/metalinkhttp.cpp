@@ -114,13 +114,18 @@ void MetalinkHttp::stop()
 
 bool MetalinkHttp::metalinkHttpInit()
 {
-    kDebug() << "metalinkHttp::metalinkHttpInit";
+    kDebug() <<" HAvE A LOOK AT ME!!!!!!!!!!!!!!!!" ;
+    kDebug() << "--------------------------------------------------------------" ;
+    kDebug() << "--------------------------------------------------------------" ;
+    kDebug() << "--------------------------------------------------------------" ;
+    kDebug() << "--------------------------------------------------------------" ;
 
+    kDebug() << "m_dest = " << m_dest;
     const KUrl tempDest=  KUrl(m_dest.directory());
     KUrl dest;
     dest = tempDest;
     dest.addPath(m_dest.fileName());
-
+    kDebug() << "dest = " << dest;
     //sort the urls according to their priority (highest first)
     qStableSort(m_linkheaderList);
 
@@ -140,6 +145,7 @@ bool MetalinkHttp::metalinkHttpInit()
         const KUrl url = m_linkheaderList[i].url;
         if (url.isValid())
         {
+            kDebug() << "addding mirrors";
             dataFactory->addMirror(url, MetalinkSettings::connectionsPerUrl());
         }
     }
@@ -155,12 +161,14 @@ bool MetalinkHttp::metalinkHttpInit()
         //BUG: Cannot add checksum
         //TODO: Remove the bug
         /* Checking if the values are in uppper or lower case */
+        /*
         QHashIterator<QString, QString> itr(m_DigestList);
         while(itr.hasNext()) {
             itr.next();
             kDebug() << itr.key() << ":" << itr.value() ;
-        }
+        } */
        // dataFactory->verifier()->addChecksums(m_DigestList);
+
         //TODO Extend Support to signatures also
 
         m_dataSourceFactory[dataFactory->dest()] = dataFactory;
@@ -188,7 +196,6 @@ bool MetalinkHttp::metalinkHttpInit()
 
 void MetalinkHttp::setLinks()
 {
-    kDebug() << "metalinkHttp::setLinks";
     QMultiMap<QString, QString>* headerInf = m_httpparser->getHeaderInfo();
     QList<QString> linkVals = headerInf->values("link"); //TODO need to check the describedby field also.
     foreach ( QString link, linkVals) {
@@ -211,7 +218,6 @@ void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 
 void MetalinkHttp::setDigests()
 {
-    kDebug() << "metalinkHttp::setDigests " ;
     QMultiMap<QString, QString>* digestInfo = m_httpparser->getHeaderInfo();
     QList<QString> digestList = digestInfo->values("digest");
     foreach( QString digest, digestList) {
