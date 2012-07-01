@@ -33,6 +33,7 @@ class MetalinkHttp : public AbstractMetalink
     ~MetalinkHttp();
 
     public Q_SLOTS:
+
     // --- Job virtual functions ---
         void start();
         void stop();
@@ -47,6 +48,7 @@ class MetalinkHttp : public AbstractMetalink
         * decided to update the metalink
         */
         bool metalinkHttpInit();
+
         void setDigests();
         void setLinks();
 
@@ -55,7 +57,7 @@ class MetalinkHttp : public AbstractMetalink
         KGetMetalink::metalinkHttpParser *m_httpparser;
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
         QHash<QString, QString> m_DigestList;
-        DataSourceFactory* m_dataSourceFactory;//Since there is a single file a single datasource is a single datasource enough ?  Need to ask boom1992
+
 
 
 };

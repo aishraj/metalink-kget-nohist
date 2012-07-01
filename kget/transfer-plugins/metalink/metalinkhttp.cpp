@@ -57,28 +57,37 @@ MetalinkHttp::~MetalinkHttp()
 
 void MetalinkHttp::startMetalink()
 {
-    DataSourceFactory* factory = m_dataSourceFactory;
-    if (m_currentFiles < MetalinkSettings::simultanousFiles())
+    if (m_ready)
     {
-        const int status = factory->status();
-        //only start factories that should be downloaded
-        if (factory->doDownload() &&
-            (status != Job::Finished) &&
-            (status != Job::FinishedKeepAlive) &&
-            (status != Job::Running))
+        foreach (DataSourceFactory *factory, m_dataSourceFactory)
         {
-            factory->start();
+            //specified number of files is downloaded simultanously
+            if (m_currentFiles < MetalinkSettings::simultanousFiles())
+            {
+                const int status = factory->status();
+                //only start factories that should be downloaded
+                if (factory->doDownload() &&
+                    (status != Job::Finished) &&
+                    (status != Job::FinishedKeepAlive) &&
+                    (status != Job::Running))
+                {
+                    ++m_currentFiles;
+                    factory->start();
+                }
+            }
+            else
+            {
+                break;
+            }
         }
     }
-
 }
 
 void MetalinkHttp::start()
 {
     kDebug() << "metalinkhttp::start";
 
-    if (!m_ready)
-    {
+    if (!m_ready) {
         setLinks();
         setDigests();
         if (metalinkHttpInit()) {
@@ -92,11 +101,14 @@ void MetalinkHttp::start()
 
 void MetalinkHttp::stop()
 {
-    DataSourceFactory* factory = m_dataSourceFactory;
-    kDebug() << "metalinkhttp::Stop";
+    kDebug(5001) << "metalink::Stop";
     if (m_ready && status() != Stopped)
     {
-        factory->stop();
+        m_currentFiles = 0;
+        foreach (DataSourceFactory *factory, m_dataSourceFactory)
+        {
+            factory->stop();
+        }
     }
 }
 
@@ -150,11 +162,15 @@ bool MetalinkHttp::metalinkHttpInit()
         }
        // dataFactory->verifier()->addChecksums(m_DigestList);
         //TODO Extend Support to signatures also
+
+        m_dataSourceFactory[dataFactory->dest()] = dataFactory;
     }
 
-    m_dest = dest;
+    if ((m_dataSourceFactory).size()) {
+        m_dest = dest;
+    }
 
-    if (!m_dataSourceFactory) {
+    if (!m_dataSourceFactory.size()) {
         //TODO make this via log in the future + do not display the KMessageBox
         kWarning(5001) << "Download of" << m_source << "failed, no working URLs were found.";
         KMessageBox::error(0, i18n("Download failed, no working URLs were found."), i18n("Error"));
@@ -163,15 +179,7 @@ bool MetalinkHttp::metalinkHttpInit()
         return false;
     }
 
-    m_dataSourceFactory = dataFactory;
-
-
-    if (m_dataSourceFactory) {
-        m_ready = true;
-    }
-    else {
-        m_ready = false;
-    }
+    m_ready = !m_dataSourceFactory.isEmpty();
     slotUpdateCapabilities();
 
     return true;
@@ -194,10 +202,11 @@ void MetalinkHttp::setLinks()
 
 void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 {
-    DataSourceFactory* factory = m_dataSourceFactory;
-    if (options & Transfer::DeleteFiles) {
-        factory->deinit();
-    }
+    foreach (DataSourceFactory *factory, m_dataSourceFactory) {
+        if (options & Transfer::DeleteFiles) {
+            factory->deinit();
+        }
+    }//TODO: Ask the user if he/she wants to delete the *.part-file? To discuss (boom1992)
 }
 
 void MetalinkHttp::setDigests()
@@ -212,3 +221,5 @@ void MetalinkHttp::setDigests()
         m_DigestList.insertMulti(digestType,digestValue);
     }
 }
+
+#include "metalinkhttp.moc"

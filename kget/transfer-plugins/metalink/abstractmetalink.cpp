@@ -452,5 +452,120 @@ void AbstractMetalink::slotUpdateCapabilities()
     }
 }
 
+void AbstractMetalink::untickAllFiles()
+{
+    for (int row = 0; row < fileModel()->rowCount(); ++row) {
+        QModelIndex index = fileModel()->index(row, FileItem::File);
+        if (index.isValid()) {
+            fileModel()->setData(index, Qt::Unchecked, Qt::CheckStateRole);
+        }
+    }
+}
+
+void AbstractMetalink::fileDlgFinished(int result)
+{
+    //the dialog was not accepted untick every file, this ensures that the user does not
+    //press start by accident without first selecting the desired files
+    if (result != QDialog::Accepted) {
+        untickAllFiles();
+    }
+
+    filesSelected();
+
+    //no files selected to download or dialog rejected, stop the download
+    if (!m_numFilesSelected || (result != QDialog::Accepted)) {
+        setStatus(Job::Stopped);
+        setTransferChange(Tc_Status, true);
+        return;
+    }
+
+    startMetalink();
+}
+
+void AbstractMetalink::filesSelected()
+{
+    bool overwriteAll = false;
+    bool autoSkip = false;
+    bool cancel = false;
+    QModelIndexList files = fileModel()->fileIndexes(FileItem::File);
+    m_numFilesSelected = 0;
+
+    //sets the CheckState of the fileModel to the according DataSourceFactories
+    //and asks the user if there are existing files already
+    foreach (const QModelIndex &index, files)
+    {
+        const KUrl dest = fileModel()->getUrl(index);
+        bool doDownload = index.data(Qt::CheckStateRole).toBool();
+        if (m_dataSourceFactory.contains(dest))
+        {
+            DataSourceFactory *factory = m_dataSourceFactory[dest];
+            //ignore finished transfers
+            if ((factory->status() == Job::Finished) || (factory->status() == Job::FinishedKeepAlive)) {
+                continue;
+            }
+
+            //check if the file at dest exists already and ask the user what to do in this case, ignore already running transfers
+            if (doDownload && (factory->status() != Job::Running) && QFile::exists(dest.toLocalFile())) {
+                //usere has chosen to skip all files that exist already before
+                if (autoSkip) {
+                    fileModel()->setData(index, Qt::Unchecked, Qt::CheckStateRole);
+                    doDownload = false;
+                //ask the user, unless he has choosen overwriteAll before
+                } else if (!overwriteAll) {
+                    KIO::RenameDialog dlg(0, i18n("File already exists"), index.data().toString(), dest, KIO::RenameDialog_Mode(KIO::M_MULTI | KIO::M_OVERWRITE | KIO::M_SKIP));
+                    const int result = dlg.exec();
+
+                    if (result == KIO::R_RENAME) {
+                        //no reason to use FileModel::rename() since the file does not exist yet, so simply skip it
+                        //avoids having to deal with signals
+                        const KUrl newDest = dlg.newDestUrl();
+                        factory->setDoDownload(doDownload);
+                        factory->setNewDestination(newDest);
+                        fileModel()->setData(index, newDest.fileName(), FileItem::File);
+                        ++m_numFilesSelected;
+
+                        m_dataSourceFactory.remove(dest);
+                        m_dataSourceFactory[newDest] = factory;
+                        continue;
+                    } else if (result == KIO::R_SKIP) {
+                        fileModel()->setData(index, Qt::Unchecked, Qt::CheckStateRole);
+                        doDownload = false;
+                    } else if (result == KIO::R_CANCEL) {
+                        cancel = true;
+                        break;
+                    } else if (result == KIO::R_AUTO_SKIP) {
+                        autoSkip = true;
+                        fileModel()->setData(index, Qt::Unchecked, Qt::CheckStateRole);
+                        doDownload = false;
+                    } else if (result == KIO::R_OVERWRITE_ALL) {
+                        overwriteAll = true;
+                    }
+                }
+            }
+
+            factory->setDoDownload(doDownload);
+            if (doDownload && (factory->status() != Finished) && (factory->status() != FinishedKeepAlive)) {
+                ++m_numFilesSelected;
+            }
+        }
+    }
+
+    //the user decided to cancel, so untick all files
+    if (cancel) {
+        m_numFilesSelected = 0;
+        untickAllFiles();
+        foreach (DataSourceFactory *factory, m_dataSourceFactory) {
+            factory->setDoDownload(false);
+        }
+    }
+
+    Transfer::ChangesFlags change = (Tc_TotalSize | Tc_DownloadSpeed);
+    //some files have been selected that are not finished yet, set them to stop if the transfer is not running (checked in slotStatus)
+    if (m_numFilesSelected) {
+        change |= Tc_Status;
+    }
+    slotDataSourceFactoryChange(change);
+}
+
 #include "abstractmetalink.moc"
 

@@ -74,7 +74,13 @@ class KGET_EXPORT AbstractMetalink : public Transfer
          * @note false does not mean that an error happened, it could mean, that the user
          * decided to update the metalink
          */
-
+        void fileDlgFinished(int result);
+        /**
+        * Checks if the ticked (not started yet) files exist already on the hd and asks
+        * the user how to proceed in that case. Also calls the according DataSourceFactories
+        * setDoDownload(bool) methods.
+        */
+        void filesSelected();
         void slotUpdateCapabilities();
         void slotDataSourceFactoryChange(Transfer::ChangesFlags change);
         void slotRename(const KUrl &oldUrl, const KUrl &newUrl);
@@ -83,6 +89,7 @@ class KGET_EXPORT AbstractMetalink : public Transfer
 
     protected :
         virtual void startMetalink() = 0;
+        void untickAllFiles();
         void recalculateTotalSize(DataSourceFactory *sender);
         void recalculateProcessedSize();
         void recalculateSpeed();
@@ -96,6 +103,7 @@ class KGET_EXPORT AbstractMetalink : public Transfer
         int m_speedCount;
         int m_tempAverageSpeed;
         mutable int m_averageSpeed;
+        int m_numFilesSelected; //The number of files that are ticked and should be downloaded
 };
 
 #endif

@@ -50,14 +50,6 @@ class MetalinkXml : public AbstractMetalink
          */
         bool metalinkInit(const KUrl &url = KUrl(), const QByteArray &data = QByteArray());
 
-        void fileDlgFinished(int result);
-        /**
-         * Checks if the ticked (not started yet) files exist already on the hd and asks
-         * the user how to proceed in that case. Also calls the according DataSourceFactories
-         * setDoDownload(bool) methods.
-         */
-        void filesSelected();
-
     protected :
         void downloadMetalink();
         void startMetalink();
@@ -67,7 +59,7 @@ class MetalinkXml : public AbstractMetalink
         bool m_metalinkJustDownloaded;
         KUrl m_localMetalinkLocation;
         KGetMetalink::Metalink m_metalink;
-        int m_numFilesSelected;//The number of files that are ticked and should be downloaded
+
 };
 
 #endif
