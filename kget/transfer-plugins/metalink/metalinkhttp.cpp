@@ -83,6 +83,10 @@ void MetalinkHttp::startMetalink()
     }
 }
 
+QString MetalinkHttp::base64ToHex(const QString& b64){
+     return QString(QByteArray::fromBase64(b64.toAscii()).toHex());
+}
+
 void MetalinkHttp::start()
 {
     kDebug() << "metalinkhttp::start";
@@ -114,12 +118,6 @@ void MetalinkHttp::stop()
 
 bool MetalinkHttp::metalinkHttpInit()
 {
-    kDebug() <<" HAvE A LOOK AT ME!!!!!!!!!!!!!!!!" ;
-    kDebug() << "--------------------------------------------------------------" ;
-    kDebug() << "--------------------------------------------------------------" ;
-    kDebug() << "--------------------------------------------------------------" ;
-    kDebug() << "--------------------------------------------------------------" ;
-
     kDebug() << "m_dest = " << m_dest;
     const KUrl tempDest=  KUrl(m_dest.directory());
     KUrl dest;
@@ -160,14 +158,15 @@ bool MetalinkHttp::metalinkHttpInit()
     {
         //BUG: Cannot add checksum
         //TODO: Remove the bug
-        /* Checking if the values are in uppper or lower case */
-        /*
+
+        /* Checking if the values are in hex or base64 */
+
         QHashIterator<QString, QString> itr(m_DigestList);
         while(itr.hasNext()) {
             itr.next();
             kDebug() << itr.key() << ":" << itr.value() ;
-        } */
-       // dataFactory->verifier()->addChecksums(m_DigestList);
+        }
+        dataFactory->verifier()->addChecksums(m_DigestList);
 
         //TODO Extend Support to signatures also
 
@@ -224,7 +223,8 @@ void MetalinkHttp::setDigests()
         int eqDelimiter = digest.indexOf('=');
         QString digestType = digest.left(eqDelimiter).trimmed();
         QString digestValue = digest.mid(eqDelimiter + 1).trimmed();
-        m_DigestList.insertMulti(digestType,digestValue);
+        QString hexDigestValue = base64ToHex(digestValue);
+        m_DigestList.insertMulti(digestType,hexDigestValue);
     }
 }
 
