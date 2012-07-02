@@ -168,6 +168,7 @@ bool MetalinkXml::metalinkInit(const KUrl &src, const QByteArray &data)
         else
         {
             dataFactory->verifier()->addChecksums((*it).verification.hashes);
+
             foreach (const KGetMetalink::Pieces &pieces, (*it).verification.pieces) {
                 dataFactory->verifier()->addPartialChecksums(pieces.type, pieces.length, pieces.hashes);
             }

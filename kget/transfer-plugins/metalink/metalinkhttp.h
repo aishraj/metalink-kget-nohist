@@ -58,9 +58,7 @@ class MetalinkHttp : public AbstractMetalink
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
         QHash<QString, QString> m_DigestList;
         QString base64ToHex(const QString& b64);
-
-
-
+        QString adaptDigestType(const QString& );
 
 };
 

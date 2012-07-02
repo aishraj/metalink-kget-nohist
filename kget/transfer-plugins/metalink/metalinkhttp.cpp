@@ -166,6 +166,7 @@ bool MetalinkHttp::metalinkHttpInit()
             itr.next();
             kDebug() << itr.key() << ":" << itr.value() ;
         }
+
         dataFactory->verifier()->addChecksums(m_DigestList);
 
         //TODO Extend Support to signatures also
@@ -224,7 +225,24 @@ void MetalinkHttp::setDigests()
         QString digestType = digest.left(eqDelimiter).trimmed();
         QString digestValue = digest.mid(eqDelimiter + 1).trimmed();
         QString hexDigestValue = base64ToHex(digestValue);
+        digestType = adaptDigestType(digestType);
         m_DigestList.insertMulti(digestType,hexDigestValue);
+    }
+}
+
+QString MetalinkHttp::adaptDigestType(const QString & hashType)
+{
+    if (hashType == QString("SHA")) {
+        return QString("sha");
+    }
+    else if (hashType == QString("MD5")) {
+        return QString("md5");
+    }
+    else if (hashType == QString("SHA-256")) {
+        return QString("sha256");
+    }
+    else {
+        return hashType;
     }
 }
 
