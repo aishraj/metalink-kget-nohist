@@ -451,7 +451,6 @@ class httpLinkHeader : public Metaurl
     httpLinkHeader()
             : m_pref(false)
         {
-            //headerBuilder(link);
         }
 
         QString m_reltype;

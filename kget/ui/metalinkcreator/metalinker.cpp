@@ -1344,7 +1344,10 @@ KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 
 void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 {
-    //TODO check the validity of the URL - ardahal
+    if (!m_Url.isValid()) {
+        kDebug() << "Url not valid";
+        return;
+    }
     KIO::SimpleJob *job;
     job = KIO::get(m_Url);
     job->addMetaData("PropagateHttpHeader", "true");
