@@ -65,6 +65,7 @@ void MetalinkHttp::startMetalink()
             if (m_currentFiles < MetalinkSettings::simultanousFiles())
             {
                 const int status = factory->status();
+
                 //only start factories that should be downloaded
                 if (factory->doDownload() &&
                     (status != Job::Finished) &&
@@ -124,10 +125,11 @@ bool MetalinkHttp::metalinkHttpInit()
     dest = tempDest;
     dest.addPath(m_dest.fileName());
     kDebug() << "dest = " << dest;
+
     //sort the urls according to their priority (highest first)
     qStableSort(m_linkheaderList);
 
-    DataSourceFactory *dataFactory = new DataSourceFactory(this,dest); //TODO: check the filesize and add a param here
+    DataSourceFactory *dataFactory = new DataSourceFactory(this,dest);
     dataFactory->setMaxMirrorsUsed(MetalinkSettings::mirrorsPerFile());
 
     connect(dataFactory, SIGNAL(capabilitiesChanged()), this, SLOT(slotUpdateCapabilities()));
@@ -143,7 +145,6 @@ bool MetalinkHttp::metalinkHttpInit()
         const KUrl url = m_linkheaderList[i].url;
         if (url.isValid())
         {
-            kDebug() << "addding mirrors";
             dataFactory->addMirror(url, MetalinkSettings::connectionsPerUrl());
         }
     }
@@ -156,10 +157,6 @@ bool MetalinkHttp::metalinkHttpInit()
     }
     else
     {
-        //BUG: Cannot add checksum
-        //TODO: Remove the bug
-
-        /* Checking if the values are in hex or base64 */
 
         QHashIterator<QString, QString> itr(m_DigestList);
         while(itr.hasNext()) {
@@ -197,7 +194,7 @@ bool MetalinkHttp::metalinkHttpInit()
 void MetalinkHttp::setLinks()
 {
     QMultiMap<QString, QString>* headerInf = m_httpparser->getHeaderInfo();
-    QList<QString> linkVals = headerInf->values("link"); //TODO need to check the describedby field also.
+    QList<QString> linkVals = headerInf->values("link");
     foreach ( QString link, linkVals) {
         KGetMetalink::httpLinkHeader linkheader;
         linkheader.headerBuilder(link);
@@ -213,7 +210,7 @@ void MetalinkHttp::deinit(Transfer::DeleteOptions options)
         if (options & Transfer::DeleteFiles) {
             factory->deinit();
         }
-    }//TODO: Ask the user if he/she wants to delete the *.part-file? To discuss (boom1992)
+    }
 }
 
 void MetalinkHttp::setDigests()

@@ -463,7 +463,7 @@ class httpLinkHeader : public Metaurl
          * @param Value of the "link" HTTP header response.
          */
         void headerBuilder(const QString &);
-        
+
         bool operator<(const httpLinkHeader &) const;
 
 };
