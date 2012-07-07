@@ -1,5 +1,7 @@
 This repo contains an ongoing development for support of Metalink/HTML [RFC 6249] in KGet which is a part of Google Summer of Code project.
 For stable version of the KGet source refer to: http://websvn.kde.org/trunk/KDE/kdenetwork/kget/ 
+In order to stop fragmentation of KGet, the branch master has been kept AS IT IS.
+For the latest development branch, please follow the git history.
 
 Below is the original readme from the KDE svn repo. Please refer to the original repo for further details.
 --------------------------------------------------------------------------------------------------------
