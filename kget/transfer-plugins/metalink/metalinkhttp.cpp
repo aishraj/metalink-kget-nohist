@@ -45,7 +45,9 @@ MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                          KGetMetalink::metalinkHttpParser *httpParser,
                          const QDomElement * e)
     : AbstractMetalink(parent, factory,scheduler,source, dest, e) ,
+      m_signatureUrl(KUrl("")),
       m_httpparser(httpParser)
+
 {
 
 }
@@ -117,6 +119,13 @@ void MetalinkHttp::stop()
     }
 }
 
+void MetalinkHttp::setSignature(KUrl & dest, QByteArray & data, DataSourceFactory* dataFactory)
+{
+    Q_UNUSED(dest);
+    dataFactory->signature()->setSignature(data,Signature::AsciiDetached);
+
+}
+
 bool MetalinkHttp::metalinkHttpInit()
 {
     kDebug() << "m_dest = " << m_dest;
@@ -167,7 +176,10 @@ bool MetalinkHttp::metalinkHttpInit()
         dataFactory->verifier()->addChecksums(m_DigestList);
 
         //TODO Extend Support to signatures also
-
+        if (m_signatureUrl != (KUrl(""))) {
+            Download *signat_download = new Download(m_signatureUrl, QString(KStandardDirs::locateLocal("appdata", "metalinks/") + m_source.fileName()));
+            connect(signat_download, SIGNAL(finishedSuccessfully(KUrl,QByteArray)), SLOT(setSignature(KUrl,QByteArray)));
+        }
         m_dataSourceFactory[dataFactory->dest()] = dataFactory;
     }
 
@@ -201,8 +213,12 @@ void MetalinkHttp::setLinks()
         if (linkheader.m_reltype == "duplicate") {
             m_linkheaderList.append(linkheader);
         }
+        if (linkheader.m_reltype == "application/pgp-signature") {
+            m_signatureUrl = linkheader.url; //There will only be one signature
+        }
     }
 }
+
 
 void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 {

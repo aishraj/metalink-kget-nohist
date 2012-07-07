@@ -48,11 +48,12 @@ class MetalinkHttp : public AbstractMetalink
         * decided to update the metalink
         */
         bool metalinkHttpInit();
-
+        void setSignature(KUrl & dest, QByteArray & data, DataSourceFactory* dataFactory);
         void setDigests();
         void setLinks();
 
     private:
+        KUrl m_signatureUrl;
         void startMetalink();
         KGetMetalink::metalinkHttpParser *m_httpparser;
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
