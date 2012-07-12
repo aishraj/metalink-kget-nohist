@@ -3,6 +3,7 @@
    Copyright (C) 2004 Dario Massarin <nekkar@libero.it>
    Copyright (C) 2007 Manolo Valdes <nolis71cu@gmail.com>
    Copyright (C) 2009 Matthias Fuchs <mat69@gmx.net>
+   Copyright (C) 2012 Aish Raj Dahal <dahalaishraj@gmail.com>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
