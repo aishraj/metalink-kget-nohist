@@ -1,5 +1,19 @@
-This repo contains an ongoing development for support of Metalink/HTML [RFC 6249] in KGet which is a part of Google Summer of Code project.
+This git repository contains an ongoing development for support of Metalink/HTML [RFC 6249] in KGet which is a part of Google Summer of Code project.
+
 For stable version of the KGet source refer to: http://websvn.kde.org/trunk/KDE/kdenetwork/kget/ 
+
+Here is what is supported in the current implementation (this repo) :
+
+Support for Metalink / HTTP as per the RFC 6249. This includes :
+
+1) Links and Hashes (including SHA1, SHA256 and MD5 ) in the HTTP Headers
+2) OpenPGP Signatures in the HTTP Headers.
+
+The following features will be added soon:
+1) Support for ETag based early download failure detection.
+2) Support for Metalink / XML based recovery.
+
+Thanks for stopping by. Have a nice day.
 
 Below is the original readme from the KDE svn repo. Please refer to the original repo for further details.
 --------------------------------------------------------------------------------------------------------
