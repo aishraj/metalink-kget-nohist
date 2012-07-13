@@ -1344,7 +1344,7 @@ KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 
 void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 {
-    //TODO Need to use a better way
+    //TODO Need to use a better way to handle the KJob. Discuss with ardahal
     if (!m_Url.isValid()) {
         kDebug() << "Url not valid";
         return;
