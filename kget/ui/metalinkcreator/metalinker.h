@@ -440,7 +440,17 @@ class metalinkHttpParser : public QObject
         bool m_MetalinkHSatus;
         QEventLoop m_loop;
         QMultiMap<QString, QString> m_headerInfo;
+
+        /**
+         * Parsees the Metalink values from QString to the Map
+         * @param Value of the QString ie raw HTTP headers
+         */
         void parseHeaders(const QString&);
+
+        /**
+         * Sets the status of m_MetalinkHStatus to true if the URL is a Metalink
+         */
+
         void setMetalinkHSatus();
 
 };
