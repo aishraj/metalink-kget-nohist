@@ -48,7 +48,13 @@ class MetalinkHttp : public AbstractMetalink
         * decided to update the metalink
         */
         bool metalinkHttpInit();
+
+        /**
+         * @note sets the signatures in the headers to the signature reader
+         */
+
         void setSignature(KUrl & dest, QByteArray & data, DataSourceFactory* dataFactory);
+
         void setDigests();
         void setLinks();
 
@@ -58,7 +64,19 @@ class MetalinkHttp : public AbstractMetalink
         KGetMetalink::metalinkHttpParser *m_httpparser;
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
         QHash<QString, QString> m_DigestList;
+
+        /**
+        * @return Hex value from a base64 value
+        * @note needed for hex based signature verification
+        */
+
         QString base64ToHex(const QString& b64);
+
+        /**
+         * Needed to change the cases of hash type to be compatible with the Metalink XML types
+         * @param Standard hash algorithm value in QString
+         */
+
         QString adaptDigestType(const QString& );
 
 };
