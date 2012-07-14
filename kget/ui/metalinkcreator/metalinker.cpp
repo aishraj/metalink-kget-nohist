@@ -1344,19 +1344,25 @@ KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 
 void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 {
-    //TODO Need to use a better way to handle the KJob. Discuss with ardahal
     if (!m_Url.isValid()) {
         kDebug() << "Url not valid";
         return;
     }
-    KIO::SimpleJob *job;
+    KIO::TransferJob *job;
     job = KIO::get(m_Url);
     job->addMetaData("PropagateHttpHeader", "true");
     job->setRedirectionHandlingEnabled(false);
-    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));
+    connect(job, SIGNAL(result(KJob*)), this, SLOT(slotHeaderResult(KJob*)));  // Finished
+    connect(job, SIGNAL(redirection(KIO::Job*,KUrl)), this, SLOT(slotRedirection(KIO::Job*,KUrl))); // Redirection
+    connect(job,SIGNAL(mimetype(KIO::Job*,QString)),this,SLOT(detectMime(KIO::Job*,QString))); // Mime detection.
     kDebug() << " Verifying Metalink/HTTP Status" ;
     m_loop.exec();
+}
 
+void KGetMetalink::metalinkHttpParser::detectMime(KIO::Job *job, const QString &type)
+{
+    Q_UNUSED(job);
+    Q_UNUSED(type);
 }
 
 void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
@@ -1367,6 +1373,20 @@ void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
     setMetalinkHSatus();
     m_loop.exit();
 
+    /*
+        // Handle the redirection... (Comment out if not desired)
+        if (m_redirectionUrl.isValid()) {
+           m_Url = m_redirectionUrl;
+           m_redirectionUrl = KUrl();
+           checkMetalinkHttp();
+        } */
+
+}
+
+void KGetMetalink::metalinkHttpParser::slotRedirection(KIO::Job *job, const KUrl & url)
+{
+    Q_UNUSED(job)
+    m_redirectionUrl = url;
 }
 
 bool KGetMetalink::metalinkHttpParser::isMetalinkHttp()
