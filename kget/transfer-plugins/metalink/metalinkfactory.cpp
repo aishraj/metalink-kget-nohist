@@ -46,7 +46,7 @@ Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &dest
     }
     else if (isSupported(srcUrl))
     {
-        kDebug(5001) << "createtransfer:: This is not metalinkhttp";
+        kDebug(5001) << "createtransfer:: This is metalink / xml";
         return new MetalinkXml(parent, this, scheduler, srcUrl, destUrl, e);
     }
     return 0;
