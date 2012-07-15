@@ -1348,6 +1348,7 @@ void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
         kDebug() << "Url not valid";
         return;
     }
+
     KIO::TransferJob *job;
     job = KIO::get(m_Url);
     job->addMetaData("PropagateHttpHeader", "true");
@@ -1361,8 +1362,9 @@ void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 
 void KGetMetalink::metalinkHttpParser::detectMime(KIO::Job *job, const QString &type)
 {
-    Q_UNUSED(job);
-    Q_UNUSED(type);
+    kDebug() << "Mime Type: " << type ;
+    job->kill();
+    m_loop.exit();
 }
 
 void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
@@ -1371,15 +1373,13 @@ void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
     const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
     parseHeaders(httpHeaders);
     setMetalinkHSatus();
-    m_loop.exit();
 
-    /*
-        // Handle the redirection... (Comment out if not desired)
-        if (m_redirectionUrl.isValid()) {
-           m_Url = m_redirectionUrl;
-           m_redirectionUrl = KUrl();
-           checkMetalinkHttp();
-        } */
+    // Handle the redirection... (Comment out if not desired)
+    if (m_redirectionUrl.isValid()) {
+       m_Url = m_redirectionUrl;
+       m_redirectionUrl = KUrl();
+       checkMetalinkHttp();
+    }
 
 }
 
@@ -1391,6 +1391,12 @@ void KGetMetalink::metalinkHttpParser::slotRedirection(KIO::Job *job, const KUrl
 
 bool KGetMetalink::metalinkHttpParser::isMetalinkHttp()
 {
+    if (m_MetalinkHSatus) {
+        kDebug() << "Metalink Http detected" ;
+    }
+    else {
+        kDebug() << "No Metalink HTTP response found" ;
+    }
     return m_MetalinkHSatus;
 }
 
