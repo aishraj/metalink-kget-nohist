@@ -154,6 +154,14 @@ bool MetalinkHttp::metalinkHttpInit()
         const KUrl url = m_linkheaderList[i].url;
         if (url.isValid())
         {
+            if (m_linkheaderList[i].m_pref) {
+                kDebug() << "found etag in a mirror" ;
+                KGetMetalink::metalinkHttpParser* eTagCher = new KGetMetalink::metalinkHttpParser(url) ;
+                if (eTagCher->getEtag() != m_httpparser->getEtag()) { //There is an ETag mismatch
+                    continue ;
+                }
+            }
+
             dataFactory->addMirror(url, MetalinkSettings::connectionsPerUrl());
         }
     }
@@ -175,7 +183,7 @@ bool MetalinkHttp::metalinkHttpInit()
 
         dataFactory->verifier()->addChecksums(m_DigestList);
 
-        //TODO Extend Support to signatures also
+        //Add OpenPGP signatures
         if (m_signatureUrl != (KUrl(""))) {
             Download *signat_download = new Download(m_signatureUrl, QString(KStandardDirs::locateLocal("appdata", "metalinks/") + m_source.fileName()));
             connect(signat_download, SIGNAL(finishedSuccessfully(KUrl,QByteArray)), SLOT(setSignature(KUrl,QByteArray)));
@@ -205,7 +213,7 @@ bool MetalinkHttp::metalinkHttpInit()
 
 void MetalinkHttp::setLinks()
 {
-    QMultiMap<QString, QString>* headerInf = m_httpparser->getHeaderInfo();
+    const QMultiMap<QString, QString>* headerInf = m_httpparser->getHeaderInfo();
     QList<QString> linkVals = headerInf->values("link");
     foreach ( QString link, linkVals) {
         KGetMetalink::httpLinkHeader linkheader;
@@ -218,7 +226,6 @@ void MetalinkHttp::setLinks()
         }
     }
 }
-
 
 void MetalinkHttp::deinit(Transfer::DeleteOptions options)
 {

@@ -421,7 +421,7 @@ class metalinkHttpParser : public QObject
     Q_OBJECT
     public:
         metalinkHttpParser(const KUrl& Url)
-          : m_Url(Url), m_MetalinkHSatus(false)
+            : m_Url(Url), m_MetalinkHSatus(false) , m_EtagValue(QString(""))
         {
             checkMetalinkHttp();
         }
@@ -430,6 +430,7 @@ class metalinkHttpParser : public QObject
         bool isMetalinkHttp();
         KUrl getUrl();
         QMultiMap<QString, QString>* getHeaderInfo();
+        QString* getEtag();
 
     private slots:
         void slotHeaderResult(KJob* kjob);
@@ -437,12 +438,14 @@ class metalinkHttpParser : public QObject
         void detectMime(KIO::Job *  job, const QString &  type);
         void slotRedirection(KIO::Job*, const KUrl&);
 
+
     private:
         KUrl m_Url;
         KUrl m_redirectionUrl;
         bool m_MetalinkHSatus;
         QEventLoop m_loop;
         QMultiMap<QString, QString> m_headerInfo;
+        QString m_EtagValue ;
 
         /**
          * Parsees the Metalink values from QString to the Map
@@ -453,7 +456,6 @@ class metalinkHttpParser : public QObject
         /**
          * Sets the status of m_MetalinkHStatus to true if the URL is a Metalink
          */
-
         void setMetalinkHSatus();
 
 };

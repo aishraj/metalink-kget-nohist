@@ -1342,6 +1342,11 @@ KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
 
 }
 
+QString* KGetMetalink::metalinkHttpParser::getEtag()
+{
+    return &m_EtagValue;
+}
+
 void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
 {
     if (!m_Url.isValid()) {
@@ -1410,6 +1415,8 @@ void KGetMetalink::metalinkHttpParser::parseHeaders(const QString &httpHeader)
         QString headerValue = line.mid(colon + 1).trimmed();
         m_headerInfo.insertMulti(headerName, headerValue);
     }
+
+    m_EtagValue = m_headerInfo.value("ETag");
 }
 
 void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
