@@ -40,6 +40,7 @@ class MetalinkHttp : public AbstractMetalink
         void save(const QDomElement &element) { Q_UNUSED(element);}
         void load(const QDomElement *element) { Q_UNUSED(element);}
         void deinit(Transfer::DeleteOptions options);
+        void slotSignatureVerified();
 
     private Q_SLOTS:
         /**

@@ -85,7 +85,7 @@ class KGET_EXPORT AbstractMetalink : public Transfer
         void slotDataSourceFactoryChange(Transfer::ChangesFlags change);
         void slotRename(const KUrl &oldUrl, const KUrl &newUrl);
         void slotVerified(bool isVerified);
-        void slotSignatureVerified();
+        virtual void slotSignatureVerified();
 
     protected :
         virtual void startMetalink() = 0;

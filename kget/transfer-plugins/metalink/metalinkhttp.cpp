@@ -13,6 +13,7 @@
 
 #include "metalinkhttp.h"
 #include "metalinksettings.h"
+#include "metalinkxml.h"
 
 #include "core/kget.h"
 #include "core/transfergroup.h"
@@ -44,7 +45,7 @@ MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                          Scheduler * scheduler, const KUrl & source, const KUrl & dest,
                          KGetMetalink::metalinkHttpParser *httpParser,
                          const QDomElement * e)
-    : AbstractMetalink(parent, factory,scheduler,source, dest, e) ,
+    : AbstractMetalink(parent,factory,scheduler,source, dest, e) ,
       m_signatureUrl(KUrl("")),
       m_httpparser(httpParser)
 
@@ -124,6 +125,39 @@ void MetalinkHttp::setSignature(KUrl & dest, QByteArray & data, DataSourceFactor
     Q_UNUSED(dest);
     dataFactory->signature()->setSignature(data,Signature::AsciiDetached);
 
+}
+
+void MetalinkHttp::slotSignatureVerified()
+{
+    if (status() == Job::Finished)
+    {
+        //see if some files are NotVerified
+        QStringList brokenFiles;
+        foreach (DataSourceFactory *factory, m_dataSourceFactory)
+        {
+            if (m_fileModel) {
+                QModelIndex signatureVerified = m_fileModel->index(factory->dest(), FileItem::SignatureVerified);
+                m_fileModel->setData(signatureVerified, factory->signature()->status());
+            }
+            if (factory->doDownload() && (factory->verifier()->status() == Verifier::NotVerified))
+            {
+                brokenFiles.append(factory->dest().pathOrUrl());
+            }
+        }
+
+        if (brokenFiles.count())
+        {
+            if (KMessageBox::warningYesNoCancelList(0,
+                i18n("The download could not be verified, try to repair it?"),
+                     brokenFiles) == KMessageBox::Yes)
+            {
+                if (repair())
+                {
+                   // MetalinkXml //TODO add metalink xml support here. But how ?
+                }
+            }
+        }
+    }
 }
 
 bool MetalinkHttp::metalinkHttpInit()
