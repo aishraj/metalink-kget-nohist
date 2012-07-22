@@ -75,11 +75,13 @@ class KGET_EXPORT AbstractMetalink : public Transfer
          * decided to update the metalink
          */
         void fileDlgFinished(int result);
+
         /**
         * Checks if the ticked (not started yet) files exist already on the hd and asks
         * the user how to proceed in that case. Also calls the according DataSourceFactories
         * setDoDownload(bool) methods.
         */
+
         void filesSelected();
         void slotUpdateCapabilities();
         void slotDataSourceFactoryChange(Transfer::ChangesFlags change);
@@ -88,6 +90,9 @@ class KGET_EXPORT AbstractMetalink : public Transfer
         virtual void slotSignatureVerified();
 
     protected :
+        /**
+         * Starts the type of metalink download
+         */
         virtual void startMetalink() = 0;
         void untickAllFiles();
         void recalculateTotalSize(DataSourceFactory *sender);

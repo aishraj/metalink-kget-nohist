@@ -56,7 +56,16 @@ class MetalinkHttp : public AbstractMetalink
 
         void setSignature(KUrl & dest, QByteArray & data, DataSourceFactory* dataFactory);
 
+        /**
+         * @note sets the Instance Digests in the headers to the vlaues as per
+         * the Instance digest in header
+         */
+
         void setDigests();
+        /**
+         * @note sets the links in the headers to the vlaues as per
+         * the Link in header
+         */
         void setLinks();
 
     private:

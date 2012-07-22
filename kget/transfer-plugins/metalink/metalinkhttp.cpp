@@ -153,7 +153,8 @@ void MetalinkHttp::slotSignatureVerified()
             {
                 if (repair())
                 {
-                   // MetalinkXml //TODO add metalink xml support here. But how ?
+                   // MetalinkXml //TODO add metalink xml support here.
+
                 }
             }
         }
