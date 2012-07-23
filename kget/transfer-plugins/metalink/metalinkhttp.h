@@ -70,6 +70,7 @@ class MetalinkHttp : public AbstractMetalink
 
     private:
         KUrl m_signatureUrl;
+        KUrl m_metalinkxmlUrl ;
         void startMetalink();
         KGetMetalink::metalinkHttpParser *m_httpparser;
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;

@@ -52,6 +52,9 @@ class MetalinkXml : public AbstractMetalink
         bool metalinkInit(const KUrl &url = KUrl(), const QByteArray &data = QByteArray());
 
     protected :
+        /**
+         * @note downloads the metalink file, then starts the download
+         */
         void downloadMetalink();
         void startMetalink();
         void untickAllFiles();

@@ -153,7 +153,8 @@ void MetalinkHttp::slotSignatureVerified()
             {
                 if (repair())
                 {
-                   // MetalinkXml //TODO add metalink xml support here.
+                    KGet::addTransfer(m_metalinkxmlUrl);
+                    //TODO delete transfer
 
                 }
             }
@@ -258,6 +259,9 @@ void MetalinkHttp::setLinks()
         }
         if (linkheader.m_reltype == "application/pgp-signature") {
             m_signatureUrl = linkheader.url; //There will only be one signature
+        }
+        if (linkheader.m_reltype == "application/metalink4+xml") {
+            m_metalinkxmlUrl = linkheader.url ; // There will only be one metalink xml (metainfo URL)
         }
     }
 }
