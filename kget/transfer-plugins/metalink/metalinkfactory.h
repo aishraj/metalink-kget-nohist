@@ -32,7 +32,12 @@ class metalinkFactory : public TransferFactory
                                    const QDomElement * e = 0 );
 
         QString displayName(){return "MetaLink";}
-        
+        /**
+         * Checks if a URL is supported by this plugin.
+         *
+         * @param The Url to be tested
+         * @return True if the URL is a metalink (xml or http).
+         */
         bool isSupported(const KUrl &url) const;
 
    private:

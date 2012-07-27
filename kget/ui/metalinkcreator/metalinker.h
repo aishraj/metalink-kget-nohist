@@ -427,9 +427,24 @@ class metalinkHttpParser : public QObject
         }
 
         ~metalinkHttpParser();
+
+        /**
+         * @return true if m_Url is a metalink/http supported URL.
+         */
+
         bool isMetalinkHttp();
+
+        /**
+         * @return the Url m_Url which is being tested for metalink
+         */
+
         KUrl getUrl();
         QMultiMap<QString, QString>* getHeaderInfo();
+
+        /**
+         * @return Returns the ETag if present in the HTTP headers
+         */
+
         QString* getEtag();
 
     private slots:
