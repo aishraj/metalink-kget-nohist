@@ -416,17 +416,17 @@ class HandleMetalink
 #endif //HAVE_NEPOMUK
 };
 
-class metalinkHttpParser : public QObject
+class MetalinkHttpParser : public QObject
 {
     Q_OBJECT
     public:
-        metalinkHttpParser(const KUrl& Url)
+        MetalinkHttpParser(const KUrl& Url)
             : m_Url(Url), m_MetalinkHSatus(false) , m_EtagValue(QString(""))
         {
             checkMetalinkHttp();
         }
 
-        ~metalinkHttpParser();
+        ~MetalinkHttpParser();
 
         /**
          * @return true if m_Url is a metalink/http supported URL.

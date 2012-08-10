@@ -1337,17 +1337,17 @@ void KGetMetalink::HandleMetalink::addProperty(QList<QPair<QUrl, Nepomuk::Varian
 #endif //HAVE_NEPOMUK
 
 
-KGetMetalink::metalinkHttpParser::~metalinkHttpParser()
+KGetMetalink::MetalinkHttpParser::~MetalinkHttpParser()
 {
 
 }
 
-QString* KGetMetalink::metalinkHttpParser::getEtag()
+QString* KGetMetalink::MetalinkHttpParser::getEtag()
 {
     return &m_EtagValue;
 }
 
-void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
+void KGetMetalink::MetalinkHttpParser::checkMetalinkHttp()
 {
     if (!m_Url.isValid()) {
         kDebug() << "Url not valid";
@@ -1365,14 +1365,14 @@ void KGetMetalink::metalinkHttpParser::checkMetalinkHttp()
     m_loop.exec();
 }
 
-void KGetMetalink::metalinkHttpParser::detectMime(KIO::Job *job, const QString &type)
+void KGetMetalink::MetalinkHttpParser::detectMime(KIO::Job *job, const QString &type)
 {
     kDebug() << "Mime Type: " << type ;
     job->kill();
     m_loop.exit();
 }
 
-void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
+void KGetMetalink::MetalinkHttpParser::slotHeaderResult(KJob* kjob)
 {
     KIO::Job* job = qobject_cast<KIO::Job*>(kjob);
     const QString httpHeaders = job ? job->queryMetaData("HTTP-Headers") : QString();
@@ -1388,13 +1388,13 @@ void KGetMetalink::metalinkHttpParser::slotHeaderResult(KJob* kjob)
 
 }
 
-void KGetMetalink::metalinkHttpParser::slotRedirection(KIO::Job *job, const KUrl & url)
+void KGetMetalink::MetalinkHttpParser::slotRedirection(KIO::Job *job, const KUrl & url)
 {
     Q_UNUSED(job)
     m_redirectionUrl = url;
 }
 
-bool KGetMetalink::metalinkHttpParser::isMetalinkHttp()
+bool KGetMetalink::MetalinkHttpParser::isMetalinkHttp()
 {
     if (m_MetalinkHSatus) {
         kDebug() << "Metalink Http detected" ;
@@ -1405,7 +1405,7 @@ bool KGetMetalink::metalinkHttpParser::isMetalinkHttp()
     return m_MetalinkHSatus;
 }
 
-void KGetMetalink::metalinkHttpParser::parseHeaders(const QString &httpHeader)
+void KGetMetalink::MetalinkHttpParser::parseHeaders(const QString &httpHeader)
 {
     QString trimedHeader = httpHeader.mid(httpHeader.indexOf('\n') + 1).trimmed();
 
@@ -1419,7 +1419,7 @@ void KGetMetalink::metalinkHttpParser::parseHeaders(const QString &httpHeader)
     m_EtagValue = m_headerInfo.value("ETag");
 }
 
-void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
+void KGetMetalink::MetalinkHttpParser::setMetalinkHSatus()
 {
     bool linkStatus, digestStatus;
     linkStatus = digestStatus = false;
@@ -1451,12 +1451,12 @@ void KGetMetalink::metalinkHttpParser::setMetalinkHSatus()
 
 }
 
-KUrl KGetMetalink::metalinkHttpParser::getUrl()
+KUrl KGetMetalink::MetalinkHttpParser::getUrl()
 {
     return m_Url;
 }
 
-QMultiMap<QString, QString>* KGetMetalink::metalinkHttpParser::getHeaderInfo()
+QMultiMap<QString, QString>* KGetMetalink::MetalinkHttpParser::getHeaderInfo()
 {
     return & m_headerInfo;
 }

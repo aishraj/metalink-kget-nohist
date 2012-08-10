@@ -29,7 +29,7 @@ class MetalinkHttp : public AbstractMetalink
     public:
     MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                 Scheduler * scheduler, const KUrl & src, const KUrl & dest,
-                KGetMetalink::metalinkHttpParser *httpParser, const QDomElement * e = 0 );
+                KGetMetalink::MetalinkHttpParser *httpParser, const QDomElement * e = 0 );
     ~MetalinkHttp();
 
     public Q_SLOTS:
@@ -72,7 +72,7 @@ class MetalinkHttp : public AbstractMetalink
         KUrl m_signatureUrl;
         KUrl m_metalinkxmlUrl ;
         void startMetalink();
-        KGetMetalink::metalinkHttpParser *m_httpparser;
+        KGetMetalink::MetalinkHttpParser *m_httpparser;
         QList<KGetMetalink::httpLinkHeader> m_linkheaderList;
         QHash<QString, QString> m_DigestList;
 

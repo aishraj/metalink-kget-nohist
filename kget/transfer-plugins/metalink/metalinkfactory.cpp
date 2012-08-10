@@ -19,40 +19,38 @@
 
 #include <kdebug.h>
 
-KGET_EXPORT_PLUGIN( metalinkFactory )
+KGET_EXPORT_PLUGIN( MetalinkFactory )
 
-metalinkFactory::metalinkFactory(QObject *parent, const QVariantList &args)
+MetalinkFactory::MetalinkFactory(QObject *parent, const QVariantList &args)
   : TransferFactory(parent, args)
 {
 }
 
-metalinkFactory::~metalinkFactory()
+MetalinkFactory::~MetalinkFactory()
 {
 }
 
-Transfer * metalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
+Transfer * MetalinkFactory::createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
                                                TransferGroup * parent,
                                                Scheduler * scheduler,
                                                const QDomElement * e )
 {
     kDebug(5001) << "metalinkFactory::createTransfer";
 
-    m_metalinkHttpChecker = new KGetMetalink::metalinkHttpParser(srcUrl);
+    m_metalinkHttpChecker = new KGetMetalink::MetalinkHttpParser(srcUrl);
 
-    if (m_metalinkHttpChecker->isMetalinkHttp())
-    {
+    if (m_metalinkHttpChecker->isMetalinkHttp()) {
             //kDebug(5001) << "createtransfer:: This is metalinkhttp";
-            return new MetalinkHttp(parent,this,scheduler,srcUrl,destUrl,m_metalinkHttpChecker,e);
+        return new MetalinkHttp(parent,this,scheduler,srcUrl,destUrl,m_metalinkHttpChecker,e);
     }
-    else if (isSupported(srcUrl))
-    {
+    else if (isSupported(srcUrl)) {
         //kDebug(5001) << "createtransfer:: This is metalink / xml";
         return new MetalinkXml(parent, this, scheduler, srcUrl, destUrl, e);
     }
     return 0;
 }
 
-bool metalinkFactory::isSupported(const KUrl &url) const
+bool MetalinkFactory::isSupported(const KUrl &url) const
 {
     return (url.fileName().endsWith(QLatin1String(".metalink")) || url.fileName().endsWith(QLatin1String(".meta4")));
 }

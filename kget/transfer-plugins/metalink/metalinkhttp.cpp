@@ -43,7 +43,7 @@
 
 MetalinkHttp::MetalinkHttp(TransferGroup * parent, TransferFactory * factory,
                          Scheduler * scheduler, const KUrl & source, const KUrl & dest,
-                         KGetMetalink::metalinkHttpParser *httpParser,
+                         KGetMetalink::MetalinkHttpParser *httpParser,
                          const QDomElement * e)
     : AbstractMetalink(parent,factory,scheduler,source, dest, e) ,
       m_signatureUrl(KUrl("")),
@@ -60,34 +60,30 @@ MetalinkHttp::~MetalinkHttp()
 
 void MetalinkHttp::startMetalink()
 {
-    if (m_ready)
-    {
-        foreach (DataSourceFactory *factory, m_dataSourceFactory)
-        {
+    if (m_ready) {
+        foreach (DataSourceFactory *factory, m_dataSourceFactory) {
             //specified number of files is downloaded simultanously
-            if (m_currentFiles < MetalinkSettings::simultanousFiles())
-            {
+            if (m_currentFiles < MetalinkSettings::simultanousFiles()) {
                 const int status = factory->status();
 
                 //only start factories that should be downloaded
                 if (factory->doDownload() &&
                     (status != Job::Finished) &&
                     (status != Job::FinishedKeepAlive) &&
-                    (status != Job::Running))
-                {
+                    (status != Job::Running)) {
                     ++m_currentFiles;
                     factory->start();
                 }
             }
-            else
-            {
+            else {
                 break;
             }
         }
     }
 }
 
-QString MetalinkHttp::base64ToHex(const QString& b64){
+QString MetalinkHttp::base64ToHex(const QString& b64)
+{
      return QString(QByteArray::fromBase64(b64.toAscii()).toHex());
 }
 
@@ -110,11 +106,9 @@ void MetalinkHttp::start()
 void MetalinkHttp::stop()
 {
     kDebug(5001) << "metalink::Stop";
-    if (m_ready && status() != Stopped)
-    {
+    if (m_ready && status() != Stopped) {
         m_currentFiles = 0;
-        foreach (DataSourceFactory *factory, m_dataSourceFactory)
-        {
+        foreach (DataSourceFactory *factory, m_dataSourceFactory) {
             factory->stop();
         }
     }
@@ -129,18 +123,15 @@ void MetalinkHttp::setSignature(KUrl & dest, QByteArray & data, DataSourceFactor
 
 void MetalinkHttp::slotSignatureVerified()
 {
-    if (status() == Job::Finished)
-    {
+    if (status() == Job::Finished) {
         //see if some files are NotVerified
         QStringList brokenFiles;
-        foreach (DataSourceFactory *factory, m_dataSourceFactory)
-        {
+        foreach (DataSourceFactory *factory, m_dataSourceFactory) {
             if (m_fileModel) {
                 QModelIndex signatureVerified = m_fileModel->index(factory->dest(), FileItem::SignatureVerified);
                 m_fileModel->setData(signatureVerified, factory->signature()->status());
             }
-            if (factory->doDownload() && (factory->verifier()->status() == Verifier::NotVerified))
-            {
+            if (factory->doDownload() && (factory->verifier()->status() == Verifier::NotVerified)) {
                 brokenFiles.append(factory->dest().pathOrUrl());
             }
         }
@@ -149,12 +140,10 @@ void MetalinkHttp::slotSignatureVerified()
         {
             if (KMessageBox::warningYesNoCancelList(0,
                 i18n("The download could not be verified, try to repair it?"),
-                     brokenFiles) == KMessageBox::Yes)
-            {
-                if (repair())
-                {
+                     brokenFiles) == KMessageBox::Yes) {
+                    if (repair()) {
                     KGet::addTransfer(m_metalinkxmlUrl);
-                    //TODO delete transfer
+                    //TODO Use a Notification instead. Check kget.h for how to use it.
 
                 }
             }
@@ -185,14 +174,12 @@ bool MetalinkHttp::metalinkHttpInit()
 
     //add the Mirrors Sources
 
-    for(int i = 0; i < m_linkheaderList.size(); ++i)
-    {
+    for(int i = 0; i < m_linkheaderList.size(); ++i) {
         const KUrl url = m_linkheaderList[i].url;
-        if (url.isValid())
-        {
+        if (url.isValid()) {
             if (m_linkheaderList[i].m_pref) {
                 kDebug() << "found etag in a mirror" ;
-                KGetMetalink::metalinkHttpParser* eTagCher = new KGetMetalink::metalinkHttpParser(url) ;
+                KGetMetalink::MetalinkHttpParser* eTagCher = new KGetMetalink::MetalinkHttpParser(url) ;
                 if (eTagCher->getEtag() != m_httpparser->getEtag()) { //There is an ETag mismatch
                     continue ;
                 }
@@ -203,8 +190,7 @@ bool MetalinkHttp::metalinkHttpInit()
     }
 
     //no datasource has been created, so remove the datasource factory
-    if (dataFactory->mirrors().isEmpty())
-    {
+    if (dataFactory->mirrors().isEmpty()) {
         kDebug() << "data source factory being deleted" ;
         delete dataFactory;
     }

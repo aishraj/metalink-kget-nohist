@@ -20,18 +20,18 @@ class TransferGroup;
 class Scheduler;
 
 
-class metalinkFactory : public TransferFactory
+class MetalinkFactory : public TransferFactory
 {
     Q_OBJECT
     public:
-        metalinkFactory(QObject *parent, const QVariantList &args);
-        ~metalinkFactory();
+        MetalinkFactory(QObject *parent, const QVariantList &args);
+        ~MetalinkFactory();
 
         Transfer * createTransfer( const KUrl &srcUrl, const KUrl &destUrl,
                                    TransferGroup * parent, Scheduler * scheduler,
                                    const QDomElement * e = 0 );
 
-        QString displayName(){return "MetaLink";}
+        QString displayName() { return "MetaLink"; }
         /**
          * Checks if a URL is supported by this plugin.
          *
@@ -41,7 +41,7 @@ class metalinkFactory : public TransferFactory
         bool isSupported(const KUrl &url) const;
 
    private:
-        KGetMetalink::metalinkHttpParser *m_metalinkHttpChecker;
+        KGetMetalink::MetalinkHttpParser *m_metalinkHttpChecker;
 };
 
 #endif
